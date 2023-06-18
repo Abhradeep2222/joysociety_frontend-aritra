@@ -1,0 +1,70 @@
+.screen-shadow {
+    box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.02);
+}
+
+.completion-date {
+    position: relative;
+    display: flex;
+
+    .btn-cal {
+        position: absolute;
+        right: 0;
+    }
+}
+
+.card-container {
+    border-radius: 8px;
+
+    // .card-container-header {
+    //     color: #fff;
+    //     padding: 15px 25px;
+    //     background-color: #0b675f;
+    //     p {
+    //         font-size: 14px;
+    //         font-weight: 600;
+    //     }
+    // }
+
+    .form-container {
+        padding: 15px 25px;
+
+        label {
+            font-weight: 600;
+        }
+
+        .cal-input {
+            width: 0;
+            padding: 0;
+            visibility: hidden;
+        }
+
+        .btn-cal {
+            background-color: #0b675f;
+            padding: 7px;
+            border-radius: 6px;
+            border-top-left-radius: 6px !important;
+            border-bottom-left-radius: 6px !important;
+
+            &:hover {
+                background-color: #19a59c;
+            }
+        }
+
+        ::ng-deep {
+            ngb-datepicker-navigation-select>.form-select {
+                margin: 0 1px;
+            }
+        }
+
+        .support {
+            background-color: #0b675f;
+            border-radius: 6px;
+
+            p {
+                font-size: 20px;
+                font-weight: 600;
+                color: #fff;
+            }
+        }
+    }
+}

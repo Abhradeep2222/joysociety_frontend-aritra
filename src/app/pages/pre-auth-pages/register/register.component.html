@@ -1,0 +1,169 @@
+<section class="auth">
+    <div class="container">
+        <div class="auth-box">
+            <div class="text-center my-5">
+                <img src="assets/img/log_logo.png" alt="logo" class="img-fluid" width="240" height="60">
+            </div>
+            <div class="auth-form mx-auto">
+                <ng-container *ngIf="view == 1">
+                    <h4 class="fw-normal mb-3">Create Account</h4>
+                    <form [formGroup]="form">
+                        <div class="d-flex gap-3 mb-3">
+                            <input type="text" class="form-control text-capitalize" placeholder="First Name"
+                                formControlName="first_name"
+                                [ngClass]="{'invalid': isSubmitting && formData['first_name'].errors}">
+                            <input type="text" class="form-control text-capitalize" placeholder="Last Name"
+                                formControlName="last_name"
+                                [ngClass]="{'invalid': isSubmitting && formData['last_name'].errors}">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Enter Email" formControlName="email"
+                                [ngClass]="{'invalid': isSubmitting && formData['email'].errors}">
+                        </div>
+                        <div class="mb-3">
+                            <ngx-intl-tel-input [cssClass]="mobInvalid"
+                                [preferredCountries]="[CountryISO.UnitedStates, CountryISO.India]"
+                                [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectFirstCountry]="false" [selectedCountryISO]="defaultCountry" [maxLength]="10"
+                                [phoneValidation]="true" [separateDialCode]="false" name="phone_number"
+                                formControlName="phone_number">
+                            </ngx-intl-tel-input>
+                        </div>
+                        <div class="rel mb-3">
+                            <input [type]="passwordType" class="form-control" placeholder="Password"
+                                formControlName="password"
+                                [ngClass]="{'invalid': isSubmitting && formData['password'].errors}">
+                            <img class="eye" src="assets/img/eye-off.png" alt="eye off" width="18" height="18"
+                                (click)="passwordType = 'text'" *ngIf="passwordType == 'password'">
+                            <img class="eye" src="assets/img/eye-off.png" alt="eye on" width="18" height="18"
+                                (click)="passwordType = 'password'" *ngIf="passwordType == 'text'">
+                        </div>
+                        <div class="rel mb-3">
+                            <input [type]="cPasswordType" class="form-control" placeholder="Re-type password"
+                                formControlName="cpassword"
+                                [ngClass]="{'invalid': isSubmitting && formData['cpassword'].errors}">
+                            <img class="eye" src="assets/img/eye-off.png" alt="eye off" width="18" height="18"
+                                (click)="cPasswordType = 'text'" *ngIf="cPasswordType == 'password'">
+                            <img class="eye" src="assets/img/eye-off.png" alt="eye on" width="18" height="18"
+                                (click)="cPasswordType = 'password'" *ngIf="cPasswordType == 'text'">
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-success fw-bold" (click)="submit()">
+                                Next
+                            </button>
+                        </div>
+                        <label class="custom-checkbox-container terms mb-0">
+                            I agree to the <a href="javascript:;" class="tnc">Terms & Conditions</a>
+                            <input type="checkbox" formControlName="tnc"
+                                [ngClass]="{'invalid': isSubmitting && formData['tnc'].errors}">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div *ngIf="isSubmitting && formData['tnc'].errors" class="err">
+                            <small [hidden]="!formData['tnc'].errors['required']">*Please accept Terms &
+                                Conditions.</small>
+                        </div>
+                    </form>
+
+                    <div class="text-center or-divider my-4">
+                        — — OR — —
+                    </div>
+
+                    <div class="social-auth d-flex gap-2 justify-content-center">
+                        <img src="assets/img/instagram.png" alt="Instagram" width="30" height="30" class="pointer">
+                        <img src="assets/img/linkedin.png" alt="LinkedIn" width="30" height="30" class="pointer">
+                        <img src="assets/img/facebook.png" alt="Facebook" width="30" height="30" class="pointer">
+                        <img src="assets/img/google.png" alt="Google" width="30" height="30" class="pointer">
+                    </div>
+
+                    <hr class="auth-h-divider my-3">
+                    <p class="text-center mb-0">
+                        Already a Member?
+                        <a [routerLink]="['/' + routes.login]" class="link link-success fw-bold">
+                            Sign In
+                        </a>
+                    </p>
+                </ng-container>
+                <ng-container *ngIf="view == 2">
+                    <div class="upload">
+                        <div class="upload-inner my-5 text-center pointer" (click)="fileInput.click()"
+                            *ngIf="!formData['profile_pic'].value && !croppedFile">
+                            <input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg"
+                                (change)="onFileChanged($event)" #fileInput>
+                            <img src="assets/img/avatar-green.png" alt="avatar" class="img-fluid" width="63"
+                                height="57">
+                            <div class="fw-bolder text-main-green mt-4">Add your profile</div>
+                        </div>
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                            [containWithinAspectRatio]="false" [aspectRatio]="4 / 3" [resizeToWidth]="256"
+                            [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="0"
+                            [transform]="{}" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'"
+                            format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                            (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                        </image-cropper>
+                        <img *ngIf="formData['profile_pic'].value" [src]="croppedImage" alt="avatar"
+                            class="img-fluid uploaded-img my-5">
+                        <img *ngIf="!formData['profile_pic'].value && croppedFile" [src]="croppedImage" alt="avatar"
+                            class="img-fluid">
+                    </div>
+                    <div class="d-grid my-4">
+                        <button class="btn btn-success fw-bold mt-2" (click)="uploadPic()" *ngIf="croppedFile">
+                            SAVE
+                        </button>
+                        <!-- <button class="btn fw-bold mt-2" (click)="submit()" [ngClass]="{
+                            'btn-secondary-outline': !formData['profile_pic'].value,
+                            'btn-success': formData['profile_pic'].value
+                        }">
+                            {{ formData['profile_pic'].value ? 'NEXT' : 'SKIP' }}
+                        </button> -->
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-success fw-bold mt-2" (click)="submit()">
+                                SUBMIT
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- <ng-container *ngIf="view == 3"> 
+                    <form [formGroup]="form">
+                        <div class="mb-3">
+                            <p class="question fw-bold">
+                                1. To receive access to the Joy Society community, you must 1st complete your membership purchase at joysociety.com. 
+                                Did you complete your membership purchase on our Website?
+                            </p>
+                            <textarea class="form-control text-capitalize answer border-0" cols="30" rows="4" placeholder="Enter your answer here" maxlength="300"
+                            formControlName="membership_completion"></textarea>
+                            <div *ngIf="isSubmitting && formData['membership_completion'].errors" class="err">
+                                <small [hidden]="!formData['membership_completion'].errors['required']">*Please type in the answer.</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p class="question fw-bold">
+                                2. If you completed your membership purchase, what is the email you used when you completed your purchase?
+                            </p>
+                            <textarea class="form-control text-capitalize answer border-0" cols="30" rows="4" placeholder="Enter your answer here" maxlength="300"
+                            formControlName="purchase_email"></textarea>
+                            <div *ngIf="isSubmitting && formData['purchase_email'].errors" class="err">
+                                <small [hidden]="!formData['purchase_email'].errors['required']">*Please type in the answer.</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p class="question fw-bold">
+                                3. Were you invited to join through a Joy Society partner/group? If so, what is the name of the partner or group? If not, enter N/A.
+                            </p>
+                            <textarea class="form-control text-capitalize answer border-0" cols="30" rows="4" placeholder="Enter your answer here" maxlength="300"
+                            formControlName="invite_group_or_partner"></textarea>
+                            <div *ngIf="isSubmitting && formData['invite_group_or_partner'].errors" class="err">
+                                <small [hidden]="!formData['invite_group_or_partner'].errors['required']">*Please type in the answer.</small>
+                            </div>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-success fw-bold mt-2" (click)="submit()">
+                                SUBMIT
+                            </button>
+                        </div>
+                    </form>
+                </ng-container> -->
+            </div>
+        </div>
+    </div>
+</section>

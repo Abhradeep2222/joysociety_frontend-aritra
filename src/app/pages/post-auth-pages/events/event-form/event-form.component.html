@@ -1,0 +1,301 @@
+<form [formGroup]="form">
+	<div class="card-container py-4">
+		<div class="d-flex align-items-center gap-2 mb-4">
+			<div>
+				<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			</div>
+			<div>
+				<h4 class="mb-0">{{ !id ? 'Create' : isDuplicate ? 'Duplicate' : 'Edit' }} Event</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 form-group mb-3">
+				<input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg"
+					(change)="onFileChanged($event)" #fileInput>
+				<div class="event-cover-img pointer" (click)="fileInput.click()"
+					*ngIf="!formData['event_image'].value && !croppedFile">
+					<div class="d-flex align-items-center">
+						<img src="assets/img/camera-1.png" alt="camera" width="19" height="15" class="me-2">
+						<span class="fw-bold">Header Image or Video <span class="err">*</span></span>
+					</div>
+					<div class="text-muted f-x-small">(Minimum 600 x 450px)</div>
+				</div>
+				<div class="text-center">
+					<image-cropper class="text-center" [imageChangedEvent]="imageChangedEvent"
+						[maintainAspectRatio]="true" [containWithinAspectRatio]="false" [aspectRatio]="21 / 9"
+						[resizeToWidth]="600" [cropperMinWidth]="1300" [onlyScaleDown]="true" [roundCropper]="false"
+						[canvasRotation]="0" [transform]="{}" [alignImage]="'left'"
+						[style.display]="showCropper ? null : 'none'" format="png" (imageCropped)="imageCropped($event)"
+						(imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)">
+					</image-cropper>
+					<img *ngIf="formData['event_image'].value" [src]="croppedImage" alt="cover"
+						class="img-fluid pointer" (click)="clearUpload(); fileInput.click();">
+				</div>
+				<div *ngIf="isSubmitting && formData['event_image'].errors" class="err">
+					<small [hidden]="!formData['event_image'].errors['required']">
+						*Please upload an event cover photo.
+					</small>
+				</div>
+				<div *ngIf="formData['event_image'].errors" class="err">
+					<small [hidden]="!formData['event_image'].errors['dimensionErr']">
+						*Image should be minimum 600 x 450px.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-12 form-group mb-3" *ngIf="showCropper">
+				<div class="text-end">
+					<button class="btn btn-nude fw-bold f-x-small me-2" (click)="clearUpload()">Cancel</button>
+					<button class="btn btn-success fw-bold f-x-small" (click)="upload()">Upload</button>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<label class="form-label mb-0">Event Title <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="title" placeholder="Event Title">
+				<div *ngIf="isSubmitting && formData['title'].errors" class="err">
+					<small [hidden]="!formData['title'].errors['required']">*Event title is required.</small>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<label class="form-label mb-0">Topic Tag </label>
+				<select class="form-control" formControlName="topic">
+					<option value="">Select Topic</option>
+					<option [value]="item.id" *ngFor="let item of topics">{{ item.name }}</option>
+				</select>
+				<div *ngIf="isSubmitting && formData['topic'].errors" class="err">
+					<small [hidden]="!formData['topic'].errors['required']">*Topic is required.</small>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<div class="d-flex align-items-center gap-2">
+					<label class="switch">
+						<input type="checkbox" formControlName="is_feed">
+						<span class="slider round"></span>
+					</label>
+					<label class="form-label mb-0">Also post in Activity Feed</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 form-group mb-4">
+				<label class="form-label mb-0">Start Date <span class="err">*</span></label>
+				<div class="input-group calender">
+					<input class="form-control" placeholder="yyyy-mm-dd" (click)="d1.toggle()"
+						formControlName="start_date" ngbDatepicker #d1="ngbDatepicker" [minDate]="minDate" />
+				</div>
+				<div *ngIf="isSubmitting && formData['start_date'].errors" class="err">
+					<small [hidden]="!formData['start_date'].errors['required']">
+						*Please select start date.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-3 form-group mb-4">
+				<label class="form-label mb-0">Time <span class="err">*</span></label>
+				<input type="time" formControlName="start_time" class="form-control">
+				<div *ngIf="isSubmitting && formData['start_time'].errors" class="err">
+					<small [hidden]="!formData['start_time'].errors['required']">
+						*Please select start time.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-3 form-group mb-4">
+				<label class="form-label mb-0">End Date <span class="err">*</span></label>
+				<div class="input-group calender">
+					<input class="form-control" placeholder="yyyy-mm-dd" (click)="d2.toggle()"
+						formControlName="end_date" ngbDatepicker #d2="ngbDatepicker" [minDate]="minDate" />
+				</div>
+				<div *ngIf="isSubmitting && formData['end_date'].errors" class="err">
+					<small [hidden]="!formData['end_date'].errors['required']">
+						*Please select end date.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-3 form-group mb-4">
+				<label class="form-label mb-0">Time <span class="err">*</span></label>
+				<input type="time" formControlName="end_time" class="form-control">
+				<div *ngIf="isSubmitting && formData['end_time'].errors" class="err">
+					<small [hidden]="!formData['end_time'].errors['required']">
+						*Please select end time.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<div class="d-flex align-items-center gap-2">
+					<label class="switch">
+						<input type="checkbox" formControlName="repeat_event" (change)="onRepeatEventChange()">
+						<span class="slider round"></span>
+					</label>
+					<label class="form-label mb-0">Repeat Event</label>
+				</div>
+			</div>
+			<div class="col-md-12 form-group mb-4" *ngIf="formData['repeat_event'].value">
+				<select class="form-control" formControlName="frequency" (change)="onfrequencyChange()">
+					<option value="">Select</option>
+					<option value="DAILY">Daily</option>
+					<option value="WEEKLY">Weekly</option>
+					<option value="MONTHLY">Monthly</option>
+					<option value="CUSTOM">Custom</option>
+				</select>
+				<div *ngIf="isSubmitting && formData['frequency'].errors" class="err">
+					<small [hidden]="!formData['frequency'].errors['required']">*Frequency is required.</small>
+				</div>
+			</div>
+			<ng-container *ngIf="formData['frequency'].value ==='CUSTOM'">
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0">Occurs Every <span class="err">*</span></label>
+					<input type="text" class="form-control" formControlName="occurrence">
+					<div *ngIf="isSubmitting && formData['occurrence'].errors" class="err">
+						<small [hidden]="!formData['occurrence'].errors['required']">
+							*Must be a number greater than zero.
+						</small>
+					</div>
+				</div>
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0"></label>
+					<select class="form-control" formControlName="occurrence_frequency"
+						(change)="onOccurrenceFrequencyChange()">
+						<option value="DAY">Day</option>
+						<option value="WEEK">Week</option>
+						<option value="MONTH">Month</option>
+						<option value="YEAR">Year</option>
+					</select>
+				</div>
+				<ng-container *ngIf="formData['occurrence_frequency'].value === 'MONTH'">
+					<div class="col-md-6 form-group mb-4">
+						<label class="form-label mb-0">Repeats <span class="err">*</span></label>
+						<select class="form-control" formControlName="repeat_on">
+							<option value="Monthly on day 13">Monthly on day 13</option>
+							<option value="Monthly on the second Friday">Monthly on the second Friday</option>
+						</select>
+					</div>
+				</ng-container>
+				<ng-container *ngIf="formData['occurrence_frequency'].value === 'WEEK'">
+					<div class="col-md-12 form-group mb-4">
+						<label class="form-label mb-0">Repeats On <span class="err">*</span></label>
+						<div class="d-flex gap-2 days">
+							<span *ngFor="let item of days" [ngClass]="{'day-selected': item.isSelected}"
+								(click)="onDaySelection(item)">
+								{{ item.day }}
+							</span>
+						</div>
+					</div>
+				</ng-container>
+				<div class="col-md-12 form-group mb-4">
+					<label class="form-label mb-0">Repeat Ends</label>
+					<div class="d-flex align-items-center gap-3 h-100">
+						<label class="custom-radio-container">On Date
+							<input type="radio" formControlName="repeat_ends" (change)="onRepeatEndChange()"
+								value="DATE">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-radio-container">After
+							<input type="radio" formControlName="repeat_ends" (change)="onRepeatEndChange()"
+								value="AFTER">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-radio-container">Never
+							<input type="radio" formControlName="repeat_ends" (change)="onRepeatEndChange()"
+								value="NEVER">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</div>
+				<div class="col-md-6 form-group mb-4" *ngIf="formData['repeat_ends'].value !== 'NEVER'">
+					<ng-container *ngIf="formData['repeat_ends'].value === 'DATE'">
+						<div class="input-group calender">
+							<input class="form-control" placeholder="yyyy-mm-dd" (click)="d3.toggle()"
+								formControlName="repeat_ends_value" ngbDatepicker #d3="ngbDatepicker" />
+						</div>
+						<div *ngIf="isSubmitting && formData['repeat_ends_value'].errors" class="err">
+							<small [hidden]="!formData['repeat_ends_value'].errors['required']">
+								*Please select date.
+							</small>
+						</div>
+					</ng-container>
+					<ng-container *ngIf="formData['repeat_ends'].value === 'AFTER'">
+						<div class="d-flex align-items-center gap-2">
+							<input type="tel" maxlength="3" class="form-control" formControlName="repeat_ends_value">
+							Occurrences
+						</div>
+						<div *ngIf="isSubmitting && formData['repeat_ends_value'].errors" class="err">
+							<small [hidden]="!formData['repeat_ends_value'].errors['required']">
+								*Must be a number greater than zero.
+							</small>
+						</div>
+					</ng-container>
+				</div>
+			</ng-container>
+		</div>
+		<div class="row">
+			<label class="form-label">Event Type</label>
+			<div class="col-md-6 form-group mb-4" *ngIf="formData['event_type'].value ==='ONLINE'">
+				<div class="btn btn-zoom w-100 d-flex align-items-center">
+					<div><img src="assets/img/zoom.png" alt="zoom" width="30" height="30"></div>
+					<div style="width: calc(100% - 50px);">Zoom Meetings</div>
+				</div>
+			</div>
+			<div class="form-group mb-4" [ngClass]="{
+				'col-md-6': formData['event_type'].value ==='ONLINE',
+				'col-md-12': formData['event_type'].value ==='LOCAL'
+			}">
+				<div class="d-flex align-items-center gap-3 h-100">
+					<label class="custom-radio-container">Online
+						<input type="radio" formControlName="event_type" value="ONLINE" (change)="onEventTypeChange()">
+						<span class="checkmark"></span>
+					</label>
+					<label class="custom-radio-container">Local
+						<input type="radio" formControlName="event_type" value="LOCAL" (change)="onEventTypeChange()">
+						<span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+			<ng-container *ngIf="formData['event_type'].value ==='LOCAL'">
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0">Venue Name <span class="err">*</span></label>
+					<input type="text" class="form-control" formControlName="venue" placeholder="Venue Name">
+					<div *ngIf="isSubmitting && formData['venue'].errors" class="err">
+						<small [hidden]="!formData['venue'].errors['required']">*Venue is required.</small>
+					</div>
+				</div>
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0">Street Address <span class="err">*</span></label>
+					<input type="text" class="form-control" formControlName="street_address"
+						placeholder="Street Address">
+					<div *ngIf="isSubmitting && formData['street_address'].errors" class="err">
+						<small [hidden]="!formData['street_address'].errors['required']">*Address is required.</small>
+					</div>
+				</div>
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0">City, State, Zip Code <span class="err">*</span></label>
+					<input type="text" class="form-control" formControlName="cityStateZip"
+						placeholder="City, State, Zip Code">
+					<div *ngIf="isSubmitting && formData['cityStateZip'].errors" class="err">
+						<small [hidden]="!formData['cityStateZip'].errors['required']">*City, State, Zip is
+							required.</small>
+					</div>
+				</div>
+				<div class="col-md-6 form-group mb-4">
+					<label class="form-label mb-0">Add an optional link</label>
+					<input type="text" class="form-control" formControlName="optional_link"
+						placeholder="e.g. https://www.eventbrite.com/events/163537">
+				</div>
+			</ng-container>
+			<div class="col-md-12 form-group mb-4">
+				<label class="form-label mb-0">Description <span class="err">*</span></label>
+				<textarea class="form-control" formControlName="description" placeholder="Event Description" cols="30"
+					rows="4"></textarea>
+				<div *ngIf="isSubmitting && formData['description'].errors" class="err">
+					<small [hidden]="!formData['description'].errors['required']">*Description is required.</small>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="text-end">
+		<button class="btn btn-secondary xs me-2 px-4 mt-3" *ngIf="id" (click)="getEventDetail()">
+			Reset
+		</button>
+		<button class="btn btn-success xs me-2 px-4 mt-3" (click)="submit()">
+			{{ (id && !isDuplicate) ? 'Update' : 'Post' }}
+		</button>
+	</div>
+</form>

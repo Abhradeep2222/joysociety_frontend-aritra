@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-container">
+            <div class="card-container-header">
+                <h6 class="mb-0">{{ isEdit ? 'Edit Profile' : 'Profile' }}</h6>
+                <div>
+                    <button class="btn btn-success xs px-4" *ngIf="!isEdit" (click)="toggleMode(true)">
+                        Edit
+                    </button>
+                    <ng-container *ngIf="isEdit">
+                        <button class="btn btn-success xs me-2 px-4" (click)="save()">
+                            Save
+                        </button>
+                        <button class="btn btn-secondary xs border-0 px-4" (click)="toggleMode(false)">
+                            Cancel
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+
+            <hr class="e2e">
+
+            <div class="profile-images mt-4">
+                <div class="cover-pic">
+                    <img src="assets/img/buildings.jpg" alt="cover photo" class="img-fluid">
+                    <!-- <div class="cover-upload-handle upload-handle" *ngIf="isEdit">
+                        <img src="assets/img/camera.png" alt="upload" width="17" height="17" class="pointer">
+                    </div> -->
+                </div>
+                <div class="profile-pic">
+                    <div class="rel">
+                        <!-- <img src="assets/img/avatar.jpg" alt="profile photo" class="img-fluid dp"> -->
+
+                        <img *ngIf="!profileDetail?.profile_pic" class="img-fluid dp"
+                            src="assets/img/avatar-placeholder.png" alt="profile photo">
+                        <img *ngIf="profileDetail?.profile_pic" class="img-fluid dp" [src]="profileDetail?.profile_pic"
+                            alt="profile photo">
+
+                        <div class="profile-upload-handle upload-handle" *ngIf="isEdit">
+                            <input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg"
+                                (change)="onFileChanged($event)" #fileInput>
+                            <img src="assets/img/camera.png" alt="upload" width="17" height="17" class="pointer"
+                                (click)="fileInput.click()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="personal-info">
+                <p class="title mb-3">
+                    {{ isEdit ? 'Edit Profile Information' : 'Profile Information' }}
+                </p>
+
+                <form [formGroup]="form">
+                    <div class="row">
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">First Name <span class="err">*</span></label>
+                            <input type="text" class="form-control" formControlName="first_name"
+                                placeholder="First Name">
+                            <div *ngIf="isSubmitting && formData['first_name'].errors" class="err">
+                                <small [hidden]="!formData['first_name'].errors['required']">*First name is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">Last Name <span class="err">*</span></label>
+                            <input type="text" class="form-control" formControlName="last_name" placeholder="Last Name">
+                            <div *ngIf="isSubmitting && formData['last_name'].errors" class="err">
+                                <small [hidden]="!formData['last_name'].errors['required']">*Last name is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">Title<span class="err">*</span></label>
+                            <textarea cols="30" rows="4" class="form-control" formControlName="mini_bio"
+                                placeholder="Title"></textarea>
+                            <div *ngIf="isSubmitting && formData['mini_bio'].errors" class="err">
+                                <small [hidden]="!formData['mini_bio'].errors['required']">*Title is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">About Me</label>
+                            <textarea cols="30" rows="4" class="form-control" formControlName="about"
+                                placeholder="About Me"></textarea>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mt-4">
+                        <div class="col-lg-12 mb-3">
+                            <p>
+                                Simply copy your social or personal link URL and add it here.
+                            </p>
+                            <div formArrayName="personal_links">
+                                <ng-container *ngFor="let item of personalLinks.controls; let i=index">
+                                    <div [formGroupName]="i" class="personal-links">
+                                        <input type="text" class="form-control mb-2" formControlName="link"
+                                            placeholder="Add a personal link">
+                                        <span class="plus minus pointer"
+                                            *ngIf="isEdit && formData['personal_links'].value.length > 1"
+                                            (click)="removeLinkFields(i)">-</span>
+                                        <span class="plus pointer"
+                                            *ngIf="isEdit && (i == formData['personal_links'].value.length-1) && i < 9"
+                                            (click)="addLinkFields()">+</span>
+                                    </div>
+                                    <div *ngIf="isSubmitting && personalLinks.controls[i].get('link')?.errors"
+                                        class="err">
+                                        <small
+                                            [hidden]="!personalLinks.controls[i].get('link')?.errors?.['required']">*Personal
+                                            link is required.</small>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">Location <span class="err">*</span></label>
+                            <app-select [config]="locationConfig" (emitter)="emitter($event)"
+                                *ngIf="isEdit"></app-select>
+                            <input [value]="profileDetail?.location?.name" class="form-control" type="text" readonly
+                                *ngIf="!isEdit">
+                            <div *ngIf="isSubmitting && formData['location'].errors" class="err">
+                                <small [hidden]="!formData['location'].errors['required']">*Location is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label mb-0">Timezone</label>
+                            <app-select [config]="timezoneConfig" (emitter)="emitter($event)"
+                                *ngIf="isEdit"></app-select>
+                            <input [value]="profileDetail?.timezone?.name" class="form-control" type="text" readonly
+                                *ngIf="!isEdit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

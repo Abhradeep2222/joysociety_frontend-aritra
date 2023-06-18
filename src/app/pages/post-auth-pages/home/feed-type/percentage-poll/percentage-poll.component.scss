@@ -1,0 +1,85 @@
+.percentage {
+    // min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .vote-label {
+        width: calc(100% - 25px);
+    }
+}
+
+// We need to use ::ng-deep to overcome view encapsulation
+::ng-deep {
+    .custom-slider {
+        width: calc(100% - 25px);
+        background-color: #8dc73f;
+        background-image: linear-gradient(to right, #8dc73f , #0b675f);
+        border-radius: 6px;
+        padding: 0 20px;
+        
+        .ngx-slider[disabled] .ngx-slider-pointer {
+            background-color: transparent;
+        }
+
+        .ngx-slider {
+            height: 2px;
+            margin: 45px 0 5px 0;
+            
+            .ngx-slider-bar {
+                background: #d6e9bc;
+                height: 1px;
+            }
+
+            // .ngx-slider-selection {
+            //     background: orange;
+            // }
+
+            .ngx-slider-bar-wrapper {
+                margin-top: -15px;
+            }
+
+            .ngx-slider-pointer {
+                top: auto; /* to remove the default positioning */
+                bottom: 0;
+                background-color: transparent;
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 12px solid #fff;
+
+                &::after {
+                    display: none;
+                }
+            }
+
+            .ngx-slider-bubble {
+                bottom: 14px;
+                color: #fff;
+                font-size: 12px;
+            }
+
+            .ngx-slider-limit {
+                font-weight: bold;
+                color: #fff !important;
+                font-size: 12px;
+            }
+
+            .ngx-slider-tick {
+                width: 1px;
+                height: 10px;
+                margin-left: 4px;
+                border-radius: 0;
+                background: #ffe4d1;
+                top: -1px;
+
+                // &.ngx-slider-selected {
+                    // background: orange;
+                // }
+            }
+        }
+
+    }
+}

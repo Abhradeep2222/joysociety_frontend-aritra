@@ -1,0 +1,98 @@
+<div class="card-container pb-1">
+	<div class="card-container-header">
+		<h6 class="mb-0">{{ view == 1 ? 'Invites' : 'Requests' }}</h6>
+		<div class="filters">
+			<app-search (listener)="filter('search', $event)"></app-search>
+			<button class="btn btn-nude d-flex align-items-center" (click)="invite()">
+				<img src="assets/img/add-user.png" alt="invite" width="10" height="11" class="me-1">
+				Invite
+			</button>
+		</div>
+	</div>
+
+	<hr class="e2e">
+
+	<div class="invite-stats my-4" *ngIf="view == 1">
+		<div class="stat-box">
+			<span class="text-main-green stat-value">16</span> <br> <span class="text-muted">Sent</span>
+		</div>
+		<div class="stat-box">
+			<span class="text-main-green stat-value">5</span> <br> <span class="text-muted">Opened</span>
+		</div>
+		<div class="stat-box">
+			<span class="text-main-green stat-value">4</span> <br> <span class="text-muted">Joined</span>
+		</div>
+		<div class="stat-box">
+			<span class="text-main-green stat-value">31%</span> <br> <span class="text-muted">Conversions</span>
+		</div>
+	</div>
+	
+
+	<div class="tab">
+		<button class="tablinks" (click)="openTab(1)" [ngClass]="{'tablink-active': view == 1}">
+			Sent Invites
+		</button>
+		<button class="tablinks" (click)="openTab(2)" [ngClass]="{'tablink-active': view == 2}">
+			Requests to Join
+		</button>
+	</div>
+
+	<hr class="my-0">
+	
+	<div id="1" class="tabcontent mt-4" *ngIf="view == 1">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+	<div id="2" class="tabcontent mt-4" *ngIf="view == 2">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+</div>
+
+<!-- Data table -->
+<ng-template #recordTemplate>
+	<div class="dt-container">
+		<ngx-datatable #table class="material" [rows]="rows" [columns]="columns" [columnMode]="'force'" 
+			[headerHeight]="34" [rowHeight]="34" [footerHeight]="0" [rowClass]="getRowClass" 
+			[scrollbarH]="true" [rowIdentity]="getId" [externalPaging]="true" [externalSorting]="false" 
+			[limit]="payload.limit" [count]="count" [offset]="payload.offset / payload.page_size" 
+			[messages]="{emptyMessage: emptyMessage}">
+		</ngx-datatable>
+
+		<ng-template #actionT let-row="row" let-value="value" let-i="index">
+			<span ngbDropdown placement="bottom-end" display="dynamic" class="action-items" container="body">
+				<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+					<img src="assets/img/dots.png" class="dots v" alt="more" width="12" height="3">
+				</a>
+				<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu x-small">
+					<li ngbDropdownItem class="pointer" *ngIf="view == 1 && row.status == 'Joined'" (click)="gotoProfile(row)">
+						View Profile
+					</li>
+					<li ngbDropdownItem class="pointer" *ngIf="view == 1 && (row.status == 'Invite Sent' || row.status == 'Reminder Sent')"
+					(click)="action('remind', row)">
+						Remind
+					</li>
+					<li ngbDropdownItem class="pointer" *ngIf="view == 1 && (row.status == 'Revoked' || row.status == 'Stale')"
+					(click)="action('invite sent', row)">
+						Invite Again
+					</li>
+					<li ngbDropdownItem class="pointer" *ngIf="(view == 1 || view == 2) && (row.status == 'Invite Sent' || row.status == 'Reminder Sent' || row.status == 'Stale' || row.approval == 'Open')" 
+					(click)="action('revoke', row)">
+						Revoke
+					</li>
+					<li ngbDropdownItem class="pointer" *ngIf="view == 2 && (row.approval == 'Open')" 
+					(click)="action('approve', row)">
+						Approve
+					</li>
+					<li ngbDropdownItem class="pointer" *ngIf="view == 2 && (row.approval == 'Open' || row.approval == 'Revoked' || row.approval == 'Approved')" 
+					(click)="action('view answers', row)">
+						View Answers
+					</li>
+				</ul>
+			</span>
+		</ng-template>
+
+		<ngb-pagination [collectionSize]="count" [(page)]="payload.page" [maxSize]="payload.page_size" *ngIf="count"
+			[rotate]="true" [ellipses]="false" [boundaryLinks]="true" size="sm" class="d-flex justify-content-end mt-3" 
+			(pageChange)="onPageChange($event)">
+		</ngb-pagination>
+	</div>
+</ng-template>

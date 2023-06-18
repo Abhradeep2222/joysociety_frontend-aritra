@@ -1,0 +1,46 @@
+<div ngbDropdown placement="bottom-end" display="dynamic">
+	<a href="javascript:;" class="nav-link avatar p-0" id="profile-dd" ngbDropdownToggle>
+		<img [src]="data?.profile_pic" alt="profile pic" width="30" height="30" class="img-round" *ngIf="data?.profile_pic">
+		<img src="assets/img/avatar-placeholder.png" alt="profile pic" width="30" height="30" class="img-round" *ngIf="!data?.profile_pic">
+	</a>
+	<ul ngbDropdownMenu aria-labelledby="profile-dd" class="custom-dd-menu">
+		<li class="no-hover">
+			<div class="ngb-dropdown-header">
+				<div class="ngb-dropdown-title">
+					Account
+				</div>
+				<div class="ngb-dropdown-actions">
+					<div class="action-items">
+						<a href="javascript:;" class="context-menu" (click)="logout()">
+							<img src="assets/img/logout.png" alt="logout" width="18" height="18">
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="ngb-dropdown-body">
+				<img *ngIf="data?.profile_pic" [src]="data?.profile_pic" alt="profile pic" width="40" height="40" class="img-round">
+				<img *ngIf="!data?.profile_pic" src="assets/img/avatar-placeholder.png" alt="profile pic" width="40" height="40" class="img-round">
+				<div class="name">
+					<div>{{ data?.full_name }}</div>
+					<a [routerLink]="[routes.profileEdit]" ngbDropdownItem class="name-sub px-0">View your profile</a>
+				</div>
+			</div>
+		</li>
+
+		<hr class="section-divider">
+
+		<ng-container *ngFor="let item of dropdown; let i = index;">
+			<li class="no-hover">
+				<div class="section-title">{{ item.parent }}</div>
+				<ul class="p-0 section-body" *ngIf="item.children.length">
+					<li ngbDropdownItem class="pointer" *ngFor="let subItem of item.children">
+						<a [routerLink]="['/' + subItem.path]" class="ps-2">
+							{{ subItem.label }}
+						</a>
+					</li>
+				</ul>
+			</li>
+			<hr class="section-divider" *ngIf="i < dropdown.length-1">
+		</ng-container>
+	</ul>
+</div>

@@ -1,0 +1,55 @@
+<div class="">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card-container">
+                <app-post (emitter)="emitter($event)"></app-post>
+            </div>
+
+            <ng-container *ngFor="let item of feeds">
+                <div class="card-container mt-4">
+                    <app-feed-head [data]="item"></app-feed-head>
+
+                    <div class="feed-body">
+                        <ng-container *ngIf="item.content_type == 'QuickPost' || item.content_type == 'LongPost'">
+                            <div [innerHTML]="item.content.post" class="word-overflow-wrap"></div>
+                        </ng-container>
+                    
+                        <ng-container *ngIf="item.content_type == 'QuestionPoll'">
+                            <ng-container *ngIf="item.content._type == 'QUESTION'">
+                                <div class="poll">
+                                    <app-question-poll [data]="item"></app-question-poll>
+                                </div>
+                            </ng-container>
+    
+                            <ng-container *ngIf="item.content._type == 'MULTIPLE CHOICE'">
+                                <div class="poll">
+                                    <app-multiple-choice-poll [data]="item" (answerListener)="answerListener($event)"></app-multiple-choice-poll>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="item.content._type == 'PERCENTAGE'">
+                                <div class="poll">
+                                    <app-percentage-poll [data]="item" (answerListener)="answerListener($event)"></app-percentage-poll>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="item.content._type == 'HOT COLD'">
+                                <div class="poll">
+                                    <app-hot-cold-poll [data]="item" (answerListener)="answerListener($event)"></app-hot-cold-poll>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <app-feed-foot [data]="item"></app-feed-foot>
+                </div>
+            </ng-container>
+            <div class="spin-container mt-4" *ngIf="isLoading">
+                <div class="loader"></div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <app-member-chat></app-member-chat>
+        </div>
+    </div>
+</div>

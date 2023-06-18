@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<div>
+		<img src="assets/img/heart-solid.png" alt="heart" width="18" height="16" *ngIf="data?.flag == 'like'"> 
+		{{ recordCount }} 
+		<span *ngIf="data?.flag == 'comment'">Comments</span>
+	</div>
+	<div class="close pointer" (click)="cancelAction()">
+		<img src="assets/img/close.png" alt="close" width="22" height="22">
+	</div>
+</div>
+<div class="modal-body">
+	<ul class="likes-list">
+		<li *ngFor="let item of records" class="mb-3 d-flex align-items-center gap-2">
+			<ng-container *ngIf="data?.flag == 'like'">
+				<img alt="profile pic" width="35" height="35" class="img-round" [src]="item.profile_pic ? item.profile_pic : 'assets/img/avatar-placeholder.png'">
+				<span class="fw-bold">
+					<ng-container *ngIf="item?.full_name">
+						{{ item.full_name }}
+					</ng-container>
+					<ng-container *ngIf="!item?.full_name">
+						{{ item.first_name + ' ' + item.last_name }}
+					</ng-container>
+				</span>
+			</ng-container>
+
+			<ng-container *ngIf="data?.flag == 'comment'">
+				<img alt="profile pic" width="35" height="35" class="img-round" [src]="item.created_by.profile_pic ? item.created_by.profile_pic : 'assets/img/avatar-placeholder.png'">
+				<span class="fw-bold">
+					<ng-container *ngIf="item?.full_name">
+						{{ item.created_by.full_name }}
+					</ng-container>
+					<ng-container *ngIf="!item?.full_name">
+						{{ item.created_by.first_name + ' ' + item.created_by.last_name }}
+					</ng-container>
+				</span>
+			</ng-container>
+		</li>
+	</ul>
+</div>

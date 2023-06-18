@@ -1,0 +1,53 @@
+<div class="row">
+		<div class="d-flex gap-2 mb-4" >
+			<div>
+				<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			</div>
+			<h4 class="mb-0 text-capitalize">{{ listType }} Goals</h4>
+		</div>
+
+		<div class=" col-lg-8">
+			<ng-container *ngIf="!isLoading && count">
+				<!-- <p class="fw-bold">Score</p> -->
+				<div class="row">
+					<div class="col-lg-6 mb-2" *ngFor="let item of goals">
+						<a class="card-container p-3 sphere-card pointer" [routerLink]="[routes.slash + routes.goal + '/pending', item.id]">
+							<div>{{ item.sphere?.name }} Well-Being</div>
+							<div class="f-x-small text-muted">{{ item.created_on | date }}</div>
+						</a>
+					</div>
+				</div>
+			</ng-container>
+			<div>
+				<div class="text-muted loading-container" *ngIf="isLoading && !count">
+					Fetching Data...
+				</div>
+				<div class="text-muted loading-container" *ngIf="!isLoading && !count">
+					No Data Found...
+				</div> 
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="card-container">
+				<div class="fw-bold mb-3">Goal Setting </div>
+				<ul class="goal-subnav mb-0">
+					<li class="py-1">
+						<a [routerLink]="[routes.slash + routes.goal, 'achieved']" [routerLinkActive]="['active-nav']" (click)="switchList('achieved')">
+							Achieved Goals
+						</a>
+					</li>
+					<li class="py-1">
+						<a [routerLink]="[routes.slash + routes.goal, 'pending']" [routerLinkActive]="['active-nav']" (click)="switchList('pending')">
+							Pending Goals
+						</a>
+					</li>
+					<li class="py-1">
+						<a [routerLink]="[routes.slash + routes.goal, 'create']">Set your Goals</a>
+					</li>
+					<li class="py-1">
+						<a [routerLink]="[routes.slash + routes.goal]">Review</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+</div>

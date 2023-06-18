@@ -1,0 +1,22 @@
+.dt-container {
+    min-height: 250px;
+
+    .text-crop {
+        .datatable-body-cell-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .dt-row-border {
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .empty-row {
+        min-height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

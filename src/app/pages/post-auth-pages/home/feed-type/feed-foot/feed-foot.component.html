@@ -1,0 +1,35 @@
+<div class="feed-foot">
+	<hr>
+	<div class="d-flex align-items-center justify-content-between text-muted f-x-small">
+		<div class="d-flex gap-3">
+			<span (click)="showLikesComments('like')" [ngClass]="{'pointer': data?.like_count}">
+				<img src="assets/img/heart-solid.png" alt="heart" width="18" height="16" *ngIf="data?.selfLike"> 
+				<img src="assets/img/heart.png" alt="heart" width="18" height="16" *ngIf="!data?.selfLike">
+				{{ data?.like_count ? data?.like_count : '' }}
+			</span>
+			<span class="pointer" *ngIf="data.content && (data.content._type == 'MULTIPLE CHOICE' || data.content._type == 'PERCENTAGE' || data.content._type == 'HOT COLD')">
+				{{ totalVotes }} Votes
+			</span>
+		</div>
+		<div class="d-flex gap-3">
+			<div class="pointer" *ngIf="data?.comments.length" (click)="showLikesComments('comment')">
+				{{ data?.comments.length }} Comments
+			</div>
+			<!-- <div class="pointer">25 Shares</div> -->
+		</div>
+	</div>
+	<hr>
+	<div class="d-flex align-items-center justify-content-around text-muted f-x-small">
+		<div class="pointer" (click)="!isLiking ? like() : ''" [ngClass]="{'self-like': data?.selfLike}">
+			<img [src]="data?.selfLike ? 'assets/img/heart-solid.png' : 'assets/img/heart.png'" alt="heart" width="20" height="18" class="me-2">Like
+		</div>
+		<div class="pointer" (click)="scrollToView()">
+			<img src="assets/img/comment.png" alt="comment" width="18" height="18" class="me-2">Comments
+		</div>
+		<div class="pointer">
+			<img src="assets/img/share.png" alt="Share" width="18" height="18" class="me-2">Share
+		</div>
+	</div>
+	<hr>
+	<app-comment [data]="data"></app-comment>
+</div>

@@ -1,0 +1,181 @@
+header {
+    .navbar {
+        background-color: map-get(map-get($palette, white), base);
+        
+        .header-search {
+            position: relative;
+            .form-control {
+                background-color: map-get(map-get($palette, gray), smoke-1);
+                border: 0;
+                border-radius: 8px;
+                text-indent: 22px;
+                width: 642px;
+                margin-right: 45px;
+            }
+
+            img {
+                position: absolute;
+                top: 9px;
+                left: 8px;
+            }
+        }
+
+        .navbar-nav {
+            gap: 10px;
+            align-items: center;
+
+            .nav-item {
+                .nav-link {
+                    background-color: #eeeff0;
+                    border-radius: 50%;
+                    text-align: center;
+                    line-height: 0;
+                    &.avatar {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1399px) {
+        .navbar {
+            .header-search {
+                .form-control {
+                    width: 550px;
+                    margin-right: 42px;
+                }
+            }
+        }
+    }
+}
+
+.dropdown {
+    .dropdown-toggle {
+        &::after {
+            display: none;
+        }
+    }
+
+    .section-divider {
+        margin: 0.75rem 2.25rem;
+        color: map-get(map-get($palette, gray), dark-2);
+    }
+
+    .ngb-dropdown-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+
+        .ngb-dropdown-title {
+            font-size: map-get($fontSize, medium);
+            font-weight: 600;
+        }
+        .ngb-dropdown-actions {
+            gap: 2px;
+            align-items: center;
+            display: flex;
+            
+            .action-items {
+                padding: 4px 6px;
+                border-radius: 6px;
+
+                &:hover  {
+                    background-color: map-get(map-get($palette, gray), smoke);
+                }
+            }
+        }
+    }
+
+    .ngb-dropdown-body {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+
+        .name {
+            font-size: map-get($fontSize, small);
+            font-weight: 600;
+            line-height: 1.4;
+
+            .name-sub {
+                color: map-get(map-get($palette, gray), dark-2);
+                font-weight: normal;
+                font-size: map-get($fontSize, x-small);
+                &:hover, &.active, &:focus {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    ul {
+        &.custom-dd-menu {
+            transition: all 0.2s ease-out;
+            min-width: 360px;
+            max-width: 360px;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+            top: 10px !important;
+
+            &.small {
+                min-width: 280px;
+                max-width: 280px;
+                top: 6px !important;
+            }
+
+            &.x-small {
+                min-width: 180px;
+                max-width: 180px;
+                top: 6px !important;
+            }
+
+            li {
+                &.p-0 {
+                    a {
+                        padding: 0.5rem 1rem;
+                    }
+                }
+            }
+        }
+
+        li {
+            font-size: map-get($fontSize, small);
+            &:hover {
+                background-color: map-get(map-get($palette, gray), smoke);
+            }
+
+            &.no-hover {
+                &:hover {
+                    background-color: transparent;
+                }
+
+                .section-title {
+                    font-weight: bold;
+                    padding: 0.5rem 1.5rem;
+
+                    &.x-small {
+                        font-size: map-get($fontSize, x-small);
+                    }
+                }
+
+                .section-body {
+                    li {
+                        a {
+                            display: block;
+                            padding: 0.5rem 1.5rem;
+                            color: map-get(map-get($palette, gray), dark-2);
+                        }
+                    }
+                }
+            }
+
+            a {
+                text-decoration: none;
+                color: map-get(map-get($palette, black), light-1);
+            }
+        }
+    }
+}

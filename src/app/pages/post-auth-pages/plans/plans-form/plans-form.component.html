@@ -1,0 +1,270 @@
+<!-- <form [formGroup]="form"> -->
+	<div class="card-container py-4">
+		<div class="d-flex align-items-center gap-2 mb-4">
+			<div>
+				<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			</div>
+			<div>
+				<h4 class="mb-0">{{ !id ? 'Create A New Plan' : 'Edit Plan' }}</h4>
+			</div>
+		</div>
+		<hr class="e2e">
+
+		<div class="stepper-wrapper mb-5">
+			<div class="stepper-item {{item?.status}} stepper-light-green" *ngFor="let item of totalSteps">
+				<div class="step-counter stepper-light-green">{{ item.step }}</div>
+				<div class="step-description stepper-light-green">{{item.description}}</div>
+			</div>
+		</div>
+
+		<ng-container *ngIf="view == 1">
+			<h5 class="mb-0">Fill in the Details</h5>
+			<p>
+				Choose to include Joy Society access, premium Tribes and/or Workshops access in this plan.
+			</p>
+			<form [formGroup]="form">
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Plan Name <span class="err">*</span></label>
+						<p class="text-muted f-x-small mb-1">
+							This will be the plan name existing members see.
+						</p>
+						<input type="text" class="form-control" formControlName="name" placeholder="Plan Name">
+						<div *ngIf="isSubmitting && formData['name'].errors" class="err">
+							<small [hidden]="!formData['name'].errors['required']">*Name is required.</small>
+						</div>
+					</div>
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Internal Note</label>
+						<p class="text-muted f-x-small mb-1">
+							This note can only be seen by the Hosts. It's helpful for differentiating plans.
+						</p>
+						<input type="text" class="form-control" formControlName="internal_note" placeholder="Internal Note">
+					</div>
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Image <span class="err">*</span></label>
+						<input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg" (change)="onFileChanged($event)" #fileInput>
+						<div class="event-cover-img pointer" (click)="fileInput.click()" *ngIf="!formData['image'].value && !croppedFile">
+							<div class="d-flex align-items-center">
+								<img src="assets/img/camera-1.png" alt="camera" width="19" height="15" class="me-2">
+								<span class="fw-bold">Browse</span>
+							</div>
+							<div class="text-muted f-x-small">(Minimum 600 x 450px)</div>
+						</div>
+						<div class="text-center">
+							<image-cropper class="text-center" *ngIf="!formData['image'].value"
+								[imageChangedEvent]="imageChangedEvent"
+								[maintainAspectRatio]="true"
+								[containWithinAspectRatio]="false"
+								[aspectRatio]="21 / 9"
+								[resizeToWidth]="600"
+								[cropperMinWidth]="1300"
+								[onlyScaleDown]="true"
+								[roundCropper]="false"
+								[canvasRotation]="0"
+								[transform]="{}"
+								[alignImage]="'left'"
+								[style.display]="showCropper ? null : 'none'"
+								format="png"
+								(imageCropped)="imageCropped($event)"
+								(imageLoaded)="imageLoaded()"
+								(cropperReady)="cropperReady($event)">
+							</image-cropper>
+							<img *ngIf="formData['image'].value && !id" [src]="croppedImage" alt="cover" class="img-fluid">
+							<img *ngIf="formData['image'].value && id" [src]="formData['image'].value" alt="cover" class="img-fluid">
+						</div>
+						<div *ngIf="isSubmitting && formData['image'].errors" class="err">
+							<small [hidden]="!formData['image'].errors['required']">
+								*Plan cover image is required.
+							</small>
+						</div>
+						<div *ngIf="formData['image'].errors" class="err">
+							<small [hidden]="!formData['image'].errors['dimensionErr']">
+								*Image should be minimum 600 x 450px.
+							</small>
+						</div>
+					</div>
+					<div class="col-md-12 form-group mb-3" *ngIf="showCropper || formData['image'].value">
+						<div class="text-end">
+							<button class="btn btn-nude fw-bold f-x-small me-2" (click)="clearUpload()">Clear</button>
+							<button class="btn btn-success fw-bold f-x-small" (click)="crop()" *ngIf="!formData['image'].value">
+								Crop
+							</button>
+						</div>
+					</div>
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Sales Pitch <span class="err">*</span></label>
+						<p class="text-muted f-x-small mb-1">
+							A short tagline will appear with the plan name. Use it to explain why prospective members should buy this plan.
+						</p>
+						<textarea cols="30" rows="4" class="form-control" formControlName="sales_pitch" placeholder="Sales Pitch"></textarea>
+						<div *ngIf="isSubmitting && formData['sales_pitch'].errors" class="err">
+							<small [hidden]="!formData['sales_pitch'].errors['required']">*Sales pitch is required.</small>
+						</div>
+					</div>
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Benefits List <span class="err">*</span></label>
+						<p class="text-muted f-x-small mb-1">
+							Create a bulleted list of the benefits prospective members will receive when they choose this plan. 
+							We recommend adding at least three.
+						</p>
+						<div formArrayName="benefits">
+							<ng-container *ngFor="let item of benefits.controls; let i=index">
+								<div [formGroupName]="i" class="benefits">
+									<input type="text" class="form-control mb-2" formControlName="benefits" placeholder="Add a benefit">
+									<span class="plus minus pointer" *ngIf="formData['benefits'].value.length > 1" (click)="removeLinkFields(i)">-</span>
+									<span class="plus pointer" *ngIf="(i == formData['benefits'].value.length-1) && i < 5" 
+									(click)="addLinkFields()">+</span>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Description <span class="err">*</span></label>
+						<textarea cols="30" rows="4" class="form-control" formControlName="description" 
+						placeholder="Write a custom description just for this plan."></textarea>
+						<div *ngIf="isSubmitting && formData['description'].errors" class="err">
+							<small [hidden]="!formData['description'].errors['required']">*Description is required.</small>
+						</div>
+					</div>
+				</div>
+				<div class="text-end">
+					<button class="btn btn-secondary xs me-2 px-4 mt-3" *ngIf="id" (click)="cancel()">
+						Cancel
+					</button>
+					<button class="btn btn-success xs me-2 px-4 mt-3" (click)="next(2)">
+						Next Configuration
+					</button>
+				</div>
+			</form>
+		</ng-container>
+
+		<ng-container *ngIf="view == 2">
+			<h5 class="mb-0">Payments Settings</h5>
+			<p class="mb-1">
+				Is payment required for a existing member to get on this plan? If not, please change the pricing type to “free”.
+			</p>
+			<p class="f-x-small text-muted">
+				Payments cannot be changed once the plan is created.
+			</p>
+			<form [formGroup]="form2">
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						<label class="form-label mb-0">Pricing Type</label>
+						<p class="text-muted f-x-small">
+							Choose how you want to charge for this new plan.
+						</p>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label mb-0">Price($) <span class="err">*</span></label>
+						<input type="tel" mask="0999999" class="form-control" formControlName="display_price" placeholder="$ 10" (change)="calculateOfferPrice()">
+						<div *ngIf="isSubmitting2 && formData2['display_price'].errors" class="err">
+							<small [hidden]="!formData2['display_price'].errors['required']">*Price is required.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label mb-0">Discount(%) <span class="err">*</span></label>
+						<input type="tel" mask="09" class="form-control" formControlName="discount" placeholder="10%" (change)="calculateOfferPrice()">
+						<div *ngIf="isSubmitting2 && formData2['discount'].errors" class="err">
+							<small [hidden]="!formData2['discount'].errors['required']">*Discount is required.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label mb-0">Offer Price($)</label>
+						<input type="tel" class="form-control" formControlName="offer_price" placeholder="$ 10">
+						<div *ngIf="isSubmitting2 && formData2['offer_price'].errors" class="err">
+							<small [hidden]="!formData2['offer_price'].errors['required']">*Offer price is required.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label mb-0">Payment Cycle <span class="err">*</span></label>
+						<select class="form-control" formControlName="payment_type" (change)="onPaymentTypeChange()">
+							<option value="WEEKLY">Weekly</option>
+							<option value="MONTHLY">Monthly</option>
+							<option value="QUARTERLY">Quarterly</option>
+							<option value="HALF_YEARLY">Half Yearly</option>
+							<option value="YEARLY">Yearly</option>
+							<option value="CUSTOM">Custom</option>
+						</select>
+						<div *ngIf="isSubmitting2 && formData2['payment_type'].errors" class="err">
+							<small [hidden]="!formData2['payment_type'].errors['required']">*Please choose a payment cycle.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3" *ngIf="formData2['payment_type'].value == 'CUSTOM'">
+						<label class="form-label mb-0">Days <span class="err">*</span></label>
+						<input type="tel" mask="099" class="form-control" formControlName="days" placeholder="Enter no. of Days">
+						<div *ngIf="isSubmitting2 && formData2['days'].errors" class="err">
+							<small [hidden]="!formData2['days'].errors['required']">*Days are required.</small>
+						</div>
+					</div>
+				</div>
+				<div class="text-end">
+					<button class="btn btn-secondary xs me-2 px-4 mt-3" *ngIf="id" (click)="cancel()">
+						Cancel
+					</button>
+					<button class="btn btn-success xs me-2 px-4 mt-3" (click)="next(3)">
+						Next
+					</button>
+				</div>
+			</form>
+		</ng-container>
+
+		<ng-container *ngIf="view == 3">
+			<h5 class="mb-0">Preview Your New Plan</h5>
+			<p class="mb-4">
+				Below is a preview of what your members will see when they have the option to purchase this plan.
+			</p>
+			<div class="plan-preview mb-4">
+				<div class="plan-img mb-3">
+					<img *ngIf="formData['image'].value" [src]="formData['image'].value" alt="plan cover image" class="img-fluid">
+				</div>
+				<div class="plan-body">
+					<div class="d-flex justify-content-between">
+						<span>Price</span>
+						<span>${{formData2['display_price'].value}}</span>
+					</div>
+					<hr  class="my-1">
+					<div class="d-flex justify-content-between">
+						<span>Discount</span>
+						<span>{{formData2['discount'].value}}%</span>
+					</div>
+					<hr  class="my-1">
+					<div class="d-flex justify-content-between">
+						<span>Offer Price</span>
+						<span>${{formData2['offer_price'].value}}</span>
+					</div>
+					<div class="text-center mt-3">
+						<div class="text-lowercase">
+							<b>${{formData2['offer_price'].value}}</b>/
+							<ng-container *ngIf="formData2['payment_type'].value == 'CUSTOM'">
+								{{formData2['days'].value}} days
+							</ng-container>
+							<ng-container *ngIf="formData2['payment_type'].value !== 'CUSTOM'">
+								{{formData2['payment_type'].value}}
+							</ng-container>
+						</div>
+						<!-- <button class="btn btn-success xs px-4" (click)="submit()">
+							Subscribe
+						</button> -->
+					</div>
+				</div>
+			</div>
+			<h6 class="f-small fw-bold mb-0">Create Your Plan</h6>
+			<p class="f-x-small mb-0">Finish Plan Creation</p>
+			<p class="f-x-small text-muted">
+				Once you're happy with the preview above, it's time to create your new plan! As a next step, you will be able to choose if 
+				you want this plan to be visible, which means that members can see and purchase the plan instantly on Web. Apple has a separate 
+				approval process for any plans you want to also make available on iOS, and this process may take some extra time.
+			</p>
+			<p class="plan-warning p-3 f-x-small">
+				Remember, you can't edit Payments or Network Access once the plan is created.
+			</p>
+			<div class="text-end">
+				<button class="btn btn-success xs me-2 px-4 mt-3" (click)="submit()">
+					Create Your Plan
+				</button>
+			</div>
+		</ng-container>
+	</div>
+
+<!-- </form> -->

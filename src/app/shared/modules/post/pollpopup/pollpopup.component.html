@@ -1,0 +1,93 @@
+<div class="p-4">
+	<div class="d-flex justify-content-between mb-4">
+		<div class="d-flex gap-2">
+			<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			<h4 class="mb-0">Create Question</h4>
+		</div>
+		<div>
+			<button class="btn btn-success xs me-2 px-4" (click)="submit()">
+				Post
+			</button>
+			<button class="btn btn-secondary xs border-0 px-4" (click)="cancel()">
+				Cancel
+			</button>
+		</div>
+	</div>
+	
+	<form [formGroup]="form" style="min-height: 300px;">
+		<div class="mb-4">
+			<label class="form-label mb-0 fw-bold">Poll Type</label>
+			<select class="form-control" formControlName="_type" (change)="onPollTypeChange()">
+				<option value="QUESTION">Question</option>
+				<option value="MULTIPLE CHOICE">Multiple Choice</option>
+				<option value="HOT COLD">Hot Cold</option>
+				<option value="PERCENTAGE">Percentage</option>
+			</select>
+		</div>
+
+		<div class="mb-4">
+			<div class="f-x-small mb-1">
+				Posting to 
+				<div ngbDropdown class="d-inline-block">
+					<b id="posting-to" class="gap-0 pointer" ngbDropdownToggle>{{ postingToSelected.title }}</b>
+					<div ngbDropdownMenu aria-labelledby="posting-to" class="posting-to" (scroll)="scroll($event)">
+						<div class="card-container p-0 mb-3">
+							<div class="tab">
+								<button class="tablinks" (click)="openTab(1)" [ngClass]="{'tablink-active': postingToView == 1}">
+									Workshop
+								</button>
+								<button class="tablinks" (click)="openTab(2)" [ngClass]="{'tablink-active': postingToView == 2}">
+									Tribe
+								</button>
+							</div>
+							<hr class="my-0">
+						</div>
+						<div>
+							<app-search (listener)="filter($event)"></app-search>
+						</div>
+						<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('', {id: null, title: 'Joy Society'})">
+							<img src="assets/img/workshop-placeholder.png" alt="Joy Society" width="35" height="35" class="img-round">
+							<span>Joy Society</span>
+						</div>
+						<ng-container *ngIf="postingToView == 1">
+							<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('workshop', item)" *ngFor="let item of postingToData">
+								<img src="assets/img/workshop-placeholder.png" [alt]="item.title" width="35" height="35" class="img-round">
+								<span>{{ item.title }}</span>
+							</div>
+						</ng-container>
+						<ng-container *ngIf="postingToView == 2">
+							<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('tribe', item)" *ngFor="let item of postingToData">
+								<img [src]="item?.tribe_url ? item?.tribe_url : 'assets/img/workshop-placeholder.png'" [alt]="item.title" width="35" height="35" class="img-round">
+								<span>{{ item.title }}</span>
+							</div>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+			<div class="rel">
+				<span class="poll-type">{{ formData['_type'].value.toLocaleLowerCase() }}</span>
+				<editor formControlName="question" apiKey="apiKey" [init]="tinymceConfig"></editor>
+			</div>
+			<div *ngIf="isSubmitting && formData['question'].errors" class="err">
+				<small [hidden]="!formData['question'].errors['required']">*Content is required.</small>
+			</div>
+		</div>
+
+		<div *ngIf="formData['_type'].value === 'MULTIPLE CHOICE'">
+			<div formArrayName="answer_choice">
+				<ng-container *ngFor="let item of answerChoice.controls; let i=index">
+					<div [formGroupName]="i" class="d-flex gap-3 align-items-baseline">
+						<input type="text" class="form-control mb-2" formControlName="answer" placeholder="Add a Choice">
+						<div class="d-flex gap-2">
+							<button class="btn btn-secondary fw-bold" *ngIf="formData['answer_choice'].value.length > 2" (click)="removeAnswerChoiceields(i)">x</button>
+							<button class="btn btn-success fw-bold" *ngIf="(i == formData['answer_choice'].value.length-1) && i < 4" (click)="addAnswerChoiceFields()">+</button>
+						</div>
+					</div>
+					<div *ngIf="isSubmitting && answerChoice.controls[i].get('answer')?.errors" class="err">
+						<small [hidden]="!answerChoice.controls[i].get('answer')?.errors?.['required']">*Please add a choice.</small>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</form>
+</div>

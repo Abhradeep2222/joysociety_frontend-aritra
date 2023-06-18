@@ -1,0 +1,25 @@
+.workshop-logo {
+    border: 1px solid #c1c1c1;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.table-content-dummy {
+    border-radius: 6px;
+    border: 1px solid #c1c1c1;
+    color: #6e7682;
+    font-weight: 600;
+    display: flex;
+
+    &:hover {
+        background-color: #F4F6FA;
+    }
+
+    .main {
+        flex: 96%;
+    }
+
+    .action {
+        flex: 4%;
+    }
+}

@@ -1,0 +1,20 @@
+<div class="feed-head d-flex align-items-center gap-2 mb-3">
+	<a [routerLink]="profilePath">
+		<img [src]="data.content.user.profile_pic || 'assets/img/avatar-placeholder.png'" alt="profile pic"
+			class="img-round profile" width="35" height="35">
+	</a>
+	<div style="line-height: 18px;">
+		<b>{{ data.content.user.first_name }} {{ data.content.user.last_name }}</b>
+		<p class="text-muted f-x-small mb-0">
+			<ng-container *ngIf="data.content_type == 'QuickPost'">Quick Post </ng-container>
+			<ng-container *ngIf="data.content_type == 'LongPost'">Long Post </ng-container>
+			<ng-container *ngIf="data.content_type == 'QuestionPoll'">
+				<ng-container *ngIf="data.content._type == 'QUESTION'">Question </ng-container>
+				<ng-container *ngIf="data.content._type == 'MULTIPLE CHOICE'">Multiple Choice </ng-container>
+				<ng-container *ngIf="data.content._type == 'PERCENTAGE'">Percentage </ng-container>
+				<ng-container *ngIf="data.content._type == 'HOT COLD'">Hot Cold </ng-container>
+			</ng-container>
+			- Posted {{ data.posted_on }}
+		</p>
+	</div>
+</div>

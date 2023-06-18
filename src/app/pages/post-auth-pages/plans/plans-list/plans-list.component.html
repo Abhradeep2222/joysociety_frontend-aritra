@@ -1,0 +1,60 @@
+<div class="card-container pb-1">
+	<div class="card-container-header">
+		<h6 class="mb-0">Plans</h6>
+		<div class="filters">
+			<app-search (listener)="filter('search', $event)"></app-search>
+			<a [routerLink]="['/' + routes.plans, 'create']" class="btn btn-success fw-bold f-x-small">
+				+ Create Plan
+			</a>
+		</div>
+	</div>
+
+	<hr class="e2e">
+
+	<div class="dt-container">
+		<ngx-datatable #table class="material" [rows]="rows" [columns]="columns" [columnMode]="'force'" 
+			[headerHeight]="34" [rowHeight]="34" [footerHeight]="0" [rowClass]="getRowClass" 
+			[scrollbarH]="true" [rowIdentity]="getId" [externalPaging]="true" [externalSorting]="false" 
+			[limit]="payload.limit" [count]="count" [offset]="payload.offset / payload.page_size" 
+			[messages]="{emptyMessage: emptyMessage}">
+		</ngx-datatable>
+		<ng-template #statusT let-row="row" let-value="value" let-i="index">
+			<ng-container *ngIf="row.is_active">
+				<span class="light-green fw-bold">Active</span>
+			</ng-container>
+			<ng-container *ngIf="row.is_draft">
+				<span class="light-yellow-base fw-bold">Draft</span>
+			</ng-container>
+			<ng-container *ngIf="!row.is_draft && !row.is_active">
+				<span class="text-muted fw-bold">Disable</span>
+			</ng-container>
+		</ng-template>
+		<ng-template #actionT let-row="row" let-value="value" let-i="index">
+			<span ngbDropdown placement="bottom-end" display="dynamic" class="action-items" container="body">
+				<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+					<img src="assets/img/dots.png" class="dots v" alt="more" width="12" height="3">
+				</a>
+				<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu x-small">
+					<ng-container *ngIf="row.is_draft && !row.is_active">
+						<li ngbDropdownItem class="pointer"  (click)="action('activate', row)">
+							Activate
+						</li>
+						<li ngbDropdownItem class="pointer" (click)="action('edit', row)">
+							Edit
+						</li>
+					</ng-container>
+					<ng-container *ngIf="!row.is_draft && row.is_active">
+						<li ngbDropdownItem class="pointer" (click)="action('disable', row)">
+							Disable
+						</li>
+					</ng-container>
+				</ul>
+			</span>
+		</ng-template>
+
+		<ngb-pagination [collectionSize]="count" [(page)]="payload.page" [maxSize]="payload.page_size" *ngIf="count"
+			[rotate]="true" [ellipses]="false" [boundaryLinks]="true" size="sm" class="d-flex justify-content-end mt-3" 
+			(pageChange)="onPageChange($event)">
+		</ngb-pagination>
+	</div>
+</div>

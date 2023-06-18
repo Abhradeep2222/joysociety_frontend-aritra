@@ -1,0 +1,24 @@
+.sphere-card {
+    border-radius: 6px;
+    box-shadow: 0 3px 6px 0 #e5e8ed;
+    display: block;
+    text-decoration: none;
+    color: #191919;
+}
+
+.goal-subnav {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+        a {
+            text-decoration: none;
+            color: #191919;
+
+            &.active-nav {
+                text-decoration: underline;
+                color: #0b675f;
+            }
+        }
+    }
+}

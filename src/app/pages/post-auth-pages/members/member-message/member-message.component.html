@@ -1,0 +1,37 @@
+<div class="card-container">
+    <div class="card-container-header">
+        <h6 class="mb-0">
+            <div class="d-flex align-items-center">
+                <img src="assets/img/message.png" alt="invite member" width="16" height="16" class="img-fluid me-3">
+                Message All Members
+            </div>
+        </h6>
+    </div>
+
+    <hr class="e2e">
+
+    <div class="msg-container">
+        <form [formGroup]="form">
+            <p class="title mb-1">Your Message</p>
+            <textarea class="form-control" cols="30" rows="6" placeholder="Type here" formControlName="message"></textarea>
+        </form>
+        <div *ngIf="isSubmitting && formData['message'].errors" class="err">
+            <small [hidden]="!formData['message'].errors['required']">*Type a message.</small>
+        </div>
+        <p class="text-muted mt-2 disclaimer">
+            Send a notification in real-time to all members of Joy Society. Write a personal message or announcement, 
+            and highlight text to add or change formatting.
+        </p>
+    </div>
+
+    <hr class="">
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success xs me-2 px-4" (click)="Send()">
+            Send
+        </button>
+        <button class="btn btn-secondary xs border-0 px-4" (click)="cancel()">
+            Cancel
+        </button>
+    </div>
+</div>

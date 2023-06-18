@@ -1,0 +1,21 @@
+<div class="modal-body px-4 py-4">
+	<div class="close " (click)="cancelAction()">
+		<img src="assets/img/close.png" alt="close" width="22" height="22">
+	</div>
+	<div>
+		<div class="body-img {{data?.imgContainerClass}}" *ngIf="data?.bodyImg">
+			<img [src]="data?.bodyImg" [alt]="data?.imgAlt" class="img-fluid">
+		</div>
+		<div class="info" *ngIf="data?.info">
+			<div [innerHTML]="data?.info"></div>
+		</div>
+	</div>
+	<div class="{{data?.btnContainerClass}}" *ngIf="data?.okBtn || data?.cancelBtn">
+		<button type="button" class="btn {{data?.cancelBtnClass ? data?.cancelBtnClass : ''}}" *ngIf="data?.cancelBtn" (click)="cancelAction()">
+			{{ data?.cancelBtn }}
+		</button>
+		<button type="button" class="btn {{data?.okBtnClass ? data?.okBtnClass : ''}}" *ngIf="data?.okBtn" (click)="okAction()">
+			{{ data?.okBtn }}
+		</button>
+	</div>
+</div>

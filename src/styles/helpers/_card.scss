@@ -1,0 +1,70 @@
+.card {
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+
+    &.bs-1 {
+        box-shadow: 0 3px 6px 0 #e5e8ed;
+    }
+
+    .card-avatar {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.no-img {
+            background-color: map-get(map-get($palette, green), dark);
+            color: map-get(map-get($palette, white), base);
+            border-radius: 6px;
+
+            &.calender-event {
+                padding: 10px;
+
+                .date {
+                    font-size: map-get($fontSize, medium);
+                }
+            }
+        }
+
+        .round {
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            object-fit: cover;
+
+            &.sm {
+                width: 44px;
+                height: 44px;
+            }
+        }
+    }
+
+    .card-img {
+
+    }
+
+    .card-body {
+        .card-title {
+            font-size: map-get($fontSize, small);
+        }
+    }
+
+    .card-actions {
+        display: flex;
+        justify-content: space-evenly;
+        font-size: map-get($fontSize, x-small);
+
+        .context-menu {
+            .dots {
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
+
+.loading-container {
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,37 @@
+<div class="comment-box">
+    <img alt="profile pic" width="28" height="28" class="img-round"
+        [src]="profileDetail?.profile_pic ? profileDetail?.profile_pic : 'assets/img/avatar-placeholder.png'">
+    <div class="comment-input w-100">
+        <textarea [placeholder]="placeholder" class="form-control" cols="30" rows="1" [ngModel]="item?.id ? userInput[item.id] : userInput.comment"
+            (ngModelChange)="ngModelChange($event, item)" appTextareaAutoresize (keyup.enter)="item?.id ? replyComment(item) : comment()" (keydown.enter)="$event.preventDefault()"
+            (focus)="isEmojiSelection = false" [id]="item?.id ? 'textarea-' + item.id : 'parent-textarea-' + data?.id" [style.max-width]="textAreaWidth">
+        </textarea>
+        <div class="comment-actions rel">
+            <img src="assets/img/Icon-feather-image.png" alt="emoji" width="16" height="16" class="me-2 pointer" (click)="fileInput.click()">
+            <input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg" (change)="onFileChanged($event, item?.id ? 'reply':'comment', item)" #fileInput>
+            <span ngbDropdown placement="top-end" display="dynamic" class="action-items comment-actions">
+                <img src="assets/img/Icon-awesome-laugh.png" alt="emoji" width="16" height="16" class="pointer" ngbDropdownToggle 
+                id=emoji-picker-{{item?.id}} (click)="isEmojiSelection = true">
+                <div ngbDropdownMenu [attr.aria-labelledby]="'emoji-picker-' + item?.id" class="custom-dd-menu small py-0 b-0">
+                    <emoji-mart title="Pick your emoji" (emojiClick)="emojiClick($event, item)" emoji="point_up" *ngIf="isEmojiSelection"></emoji-mart>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="image.commentImg && !item?.id">
+    <div class="image-loader">
+        <div class="rel img-preview mt-3 mx-4 w-50">
+            <img src="assets/img/close.png" alt="cancel" class="cross pointer" width="25" height="25" (click)="image.commentImg = ''">
+            <img [src]="image.commentImg" class="img-fluid">
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="image[item?.id] && item?.id">
+    <div class="image-loader">
+        <div class="rel img-preview mt-3 mx-4 w-50">
+            <img src="assets/img/close.png" alt="cancel" class="cross pointer" width="25" height="25" (click)="image[item?.id] = ''">
+            <img [src]="image[item?.id]" class="img-fluid">
+        </div>
+    </div>
+</ng-container>

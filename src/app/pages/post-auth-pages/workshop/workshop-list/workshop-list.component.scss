@@ -1,0 +1,16 @@
+.instructors {
+    .instructors-img {
+        img {
+            margin-left: -8px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.action-items {
+    position: absolute;
+    right: 16px;
+    top: 8px;
+}

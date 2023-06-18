@@ -1,0 +1,84 @@
+.btn {
+    font-size: map-get($fontSize, small);
+    &.btn-success {
+        background-color: map-get(map-get($palette, green), dark);
+    }
+    &.btn-secondary {
+        background-color: map-get(map-get($palette, gray), light-1);
+        color: map-get(map-get($palette, black), light-2);
+        border-color: map-get(map-get($palette, gray), light-1);
+    }
+    &.btn-secondary-outline {
+        background-color: transparent;
+        border: 1px solid map-get(map-get($palette, gray), base);
+        color: map-get(map-get($palette, black), light-2);
+    }
+
+    &.btn-nude {
+        background-color: map-get(map-get($palette, white), base);
+        border: 1px solid #f1f1f1;
+        color: map-get(map-get($palette, black), light-2);
+
+        &.text-green {
+            color: map-get(map-get($palette, green), light-2); 
+        }
+    }
+
+    &.btn-danger {
+        background-color: map-get(map-get($palette, red), dark);
+    }
+
+    &.xs {
+        font-size: map-get($fontSize, x-small);
+    }
+
+    &.btn-zoom {
+        background-color: map-get(map-get($palette, blue), zoom);
+        color: map-get(map-get($palette, white), base);
+
+        &:active {
+            background-color: map-get(map-get($palette, blue), zoom);
+            color: map-get(map-get($palette, white), base);
+        }
+    }
+
+    &.btn-like {
+        &:active {
+            border: 0;
+            border-color: transparent;
+            background-color: transparent;
+        }
+    }
+}
+
+.btn-nude-div {
+    background-color: map-get(map-get($palette, white), base);
+    border: 1px solid #f1f1f1;
+    color: map-get(map-get($palette, black), light-2);
+
+    &.text-green {
+        color: map-get(map-get($palette, green), light-2); 
+    }
+}
+
+.link {
+    font-size: map-get($fontSize, small);
+    text-decoration: none;
+    &.xs {
+        font-size: map-get($fontSize, x-small);
+    }
+    &.link-secondary {
+        color: map-get(map-get($palette, gray), base);
+    }
+    &.link-success {
+        color: map-get(map-get($palette, green), base);
+    }
+}
+
+.badge {
+    font-size: map-get($fontSize, mini);
+    font-weight: normal;
+    &.bg-success {
+        background-color: map-get(map-get($palette, green), light-1) !important;
+    }
+}

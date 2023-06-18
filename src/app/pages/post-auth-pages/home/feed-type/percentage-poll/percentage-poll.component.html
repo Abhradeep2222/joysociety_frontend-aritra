@@ -1,0 +1,13 @@
+<div class="percentage py-4">
+	<h3 class="mb-0" [innerHTML]="data.content.question"></h3>
+	<ng-container *ngIf="data.content.my_answer.length">
+		<p class="mb-0 test-start vote-label">Community Average</p>
+		<div class="custom-slider mb-3">
+			<ngx-slider [(value)]="publicValue" [options]="publicOptions"></ngx-slider>
+		</div>
+	</ng-container>
+	<p class="mb-0 test-start vote-label" *ngIf="data.content.my_answer.length">Your Vote</p>
+	<div class="custom-slider">
+		<ngx-slider [(value)]="value" [options]="options" (userChangeEnd)="onChangeEnd($event)"></ngx-slider>
+	</div>
+</div>

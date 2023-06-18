@@ -1,0 +1,8 @@
+.card {
+    border: 0;
+    box-shadow: 0 3px 6px 0 #e5e8ed;
+
+    &.added {
+        border: 1px solid #2bb673;
+    }
+}

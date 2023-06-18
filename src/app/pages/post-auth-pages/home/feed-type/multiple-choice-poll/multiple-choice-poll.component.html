@@ -1,0 +1,16 @@
+<div class="mcq py-3">
+	<h3 class="mb-0" [innerHTML]="data.content.question"></h3>
+	<div *ngFor="let item of data.content.votes" class="rel answer-item p-3 mb-2 text-muted" [ngClass]="{
+		'pointer': !data.content.my_answer.length
+	}" (click)="chooseAnswer(item.choice)">
+		<div class="progress" [ngStyle]="{'width': item.percentage + '%'}"></div>
+		<span>{{ item.choice }}</span>
+		<span class="f-x-small">
+			<span class="me-2">{{ item.percentage }}%</span>
+			<span class="me-2">{{ item.count }} Votes</span>
+			<ng-container *ngIf="data.content.my_answer.length && (item.choice == data.content.my_answer[0])">
+				<img [src]="profileDetail?.profile_pic" alt="profile picture" class="img-round" width="30" height="30">
+			</ng-container>
+		</span>
+	</div>
+</div>

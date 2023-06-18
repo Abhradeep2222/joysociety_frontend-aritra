@@ -1,0 +1,96 @@
+<div class="card-container">
+	<div class="card-container-header">
+		<h6 class="mb-0">Tribes</h6>
+		<div class="filters">
+			<!-- <button ngbDropdown placement="bottom-start" display="dynamic" class="btn btn-nude d-flex align-items-center">
+				<span class="context-menu" ngbDropdownToggle id="event-type-dd">
+					{{ eventTypes[payload.event_type].label }}
+				</span>
+				<ul ngbDropdownMenu aria-labelledby="event-type-dd" class="custom-dd-menu small">
+					<li ngbDropdownItem class="pointer" *ngFor="let item of eventTypes" (click)="filter('event_type', item.id)">
+						{{ item.label }}
+					</li>
+				</ul>
+			</button> -->
+			<!-- <app-search (listener)="filter('search', $event)"></app-search> -->
+			<a [routerLink]="['/' + routes.tribes, 'create']" class="btn btn-success fw-bold f-x-small">
+				+ Create Tribe
+			</a>
+		</div>
+	</div>
+
+	<ng-container *ngIf="tribes.length && !isLoading">
+		<div class="row mt-5">
+			<div class="col-xl-6 mb-4" *ngFor="let item of tribes">
+				<div class="card bs-1 border-bottom-0">
+					<span ngbDropdown placement="bottom-end" display="dynamic" class="action-items">
+						<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+							<img src="assets/img/dots.png" class="dots" alt="more" width="12" height="3">
+						</a>
+						<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu small">
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('view', item)">View Tribe</a>
+							</li>
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('edit', item)">Edit Tribe</a>
+							</li>
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('delete', item)">Delete Tribe</a>
+							</li>
+						</ul>
+					</span>
+					<div class="card-img text-center dummy-img-bg">
+						<img (click)="action('view', item)"
+							[src]="item.tribe_url ? item.tribe_url : 'assets/img/event-placeholder.png'"
+							class="img-fluid myImg" alt="Tribe">
+					</div>
+					<hr class="m-0">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-center mb-2">
+							<div class="btn-nude-div f-x-small py-1 px-2">
+								<img *ngIf="item.privacy != 'Public'" src="assets/img/lock.png" alt="lock" width="10"
+									height="13" class="me-1" style="margin-top: -3px;">
+								{{ item.privacy }}
+							</div>
+							<div>
+								<button class="btn btn-success f-x-small py-1 px-2">
+									Request Access
+								</button>
+							</div>
+						</div>
+						<h5 class="mb-0">{{ item.title }}</h5>
+						<p class="f-x-small mb-0">{{ item.tagline }}</p>
+						<p class="text-muted f-x-small mb-0">{{ item.description }}</p>
+						<hr>
+						<div class="d-flex justify-content-between align-items-center f-x-small gap-2">
+							<div class="">
+								<div class="text-muted">4 members</div>
+								<div class="text-muted">A {{ item.privacy }} Tribe in Joy Society</div>
+							</div>
+							<div ngbDropdown placement="bottom-start" display="dynamic">
+								<img src="assets/img/share-circle.png" alt="share" class="pointer content-menu"
+									width="50" height="50" ngbDropdownToggle id="share-dd">
+								<ul ngbDropdownMenu aria-labelledby="share-dd" class="custom-dd-menu small">
+									<li ngbDropdownItem class="pointer">
+										<img src="assets/img/email-circle.png" alt="email" width="40" height="40">
+										Email
+									</li>
+									<li ngbDropdownItem class="pointer">
+										<img src="assets/img/copy-circle.png" alt="copy link" width="40" height="40">
+										Copy Link
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ngb-pagination [collectionSize]="collectionSize" [(page)]="payload.page" [maxSize]="5" [rotate]="true"
+			[ellipses]="false" [boundaryLinks]="true" size="sm" class="d-flex justify-content-end"
+			(pageChange)="pageChange($event)">
+		</ngb-pagination>
+	</ng-container>
+	<div class="text-muted loading-container" *ngIf="!tribes.length && isLoading">Loading...</div>
+	<div class="text-muted loading-container" *ngIf="!tribes.length && !isLoading">No Data Found!</div>
+</div>

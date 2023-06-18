@@ -1,0 +1,52 @@
+<div class="menu" *ngIf="menu?.length">
+	<div *ngIf="sidebarHeader.isVisible" class="sidebar-header">
+		<div class="sidebar-header-title">
+			{{ sidebarHeader.title }}
+		</div>
+		<hr class="mt-3 mb-1">
+	</div>
+
+	<ul class="mb-4">
+		<ng-container *ngFor="let item of menu">
+			<ng-container *ngIf="item.isNotLink">
+				<li class="sub-title {{item?.isNotLinkClass}}">{{ item.title }}</li>
+			</ng-container>
+			<ng-container *ngIf="!item.isNotLink">
+				<li *ngIf="item.isVisible" class="">
+					<a [routerLink]="item.path" [routerLinkActive]="['active-route']" class="w-100"
+						[queryParams]="item?.queryParams">
+						<img *ngIf="item?.icon" class="icon" [src]="item?.icon" [alt]="item.title" width="14">
+						<img *ngIf="item?.activeIcon" class="icon-active" [src]="item?.activeIcon" [alt]="item.title"
+							width="14">
+						<span>{{ item.title }}</span>
+					</a>
+				</li>
+			</ng-container>
+		</ng-container>
+	</ul>
+
+	<ng-container *ngIf="profileDetail?.role != 1">
+		<ng-container *ngIf="currentRoute != '/profile-edit'">
+			<div class="d-grid" style="padding: 0.5rem 25px;">
+				<a class="btn btn-success fw-bold xs" [routerLink]="[routes.subscriptions]">
+					Subscription
+				</a>
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="currentRoute == '/profile-edit'">
+			<hr class="mt-0 mb-2 deactivate-divider">
+			<div class="d-grid" style="padding: 0.5rem 25px;">
+				<button class="btn btn-secondary border-0 fw-bold xs mb-2">
+					Deactivate My Account
+				</button>
+				<p class="deactivate-info mb-1">
+					To permanently delete your account, <a href="javascript:;">click here</a>.
+				</p>
+				<p class="deactivate-info mb-1">
+					For more details on your options, <a routerLink="/contact">check out our Help Center</a>.
+				</p>
+			</div>
+		</ng-container>
+	</ng-container>
+</div>

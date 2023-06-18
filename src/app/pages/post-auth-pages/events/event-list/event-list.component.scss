@@ -1,0 +1,24 @@
+.action-items {
+    position: absolute;
+    right: 16px;
+    top: 1px;
+}
+
+.event-schedule {
+    color: #0b675f;
+}
+
+.instructors {
+    .instructors-img {
+        img {
+            margin-left: -8px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.dummy-img-bg {
+    background-color: #f4f6fa;
+}

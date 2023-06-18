@@ -1,0 +1,68 @@
+.profile-images {
+    position: relative;
+
+    .cover-pic {
+        img {
+            width: 100%;
+        }
+    }
+
+    .profile-pic {
+        padding: 7px 15px 15px 15px;
+        display: flex;
+        align-items: center;
+        gap: 140px;
+
+        .dp {
+            position: absolute;
+            bottom: 15px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+        }
+    }
+
+    .profile-info {
+        flex: 80%;
+
+        .name {
+            .role {
+                font-size: 11px;
+                color: #2bb673;
+                font-weight: 500;
+            }
+        }
+
+        .last-active {
+            font-size: 12px;
+        }
+
+        .count-info {
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            ul {
+                list-style-type: none;
+                padding-left: 0;
+                display: flex;
+                gap: 12px;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.evt-title {
+    font-size: 13px !important;
+}
+
+.tag {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

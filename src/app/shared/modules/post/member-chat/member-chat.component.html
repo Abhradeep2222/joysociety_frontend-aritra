@@ -1,0 +1,19 @@
+<div class="chat-member">
+    <div class="px-3 py-2">
+        <h5 class="mb-0">Members</h5>
+    </div>
+    <ul class="chat-member-list">
+        <li class="px-3 py-2">
+            <div class="search-chat rel w-100">
+                <input type="search" placeholder="Search" class="form-control" [(ngModel)]="searchText">
+                <img src="assets/img/search.png" alt="search" width="16" height="16">
+            </div>
+        </li>
+        <li *ngFor="let item of memberList | searchFilter: searchText" class="px-3 py-2 pointer hoverable">
+            <img alt="profile pic" width="35" height="35" class="img-round me-2" [src]="item.profile_pic ? item.profile_pic : 'assets/img/avatar-placeholder.png'">
+            {{ item?.full_name }}
+        </li>
+    </ul>
+</div>
+
+<!-- <ng-chat [adapter]="adapter" [userId]="userId"></ng-chat> -->

@@ -1,0 +1,79 @@
+<section class="auth">
+    <div class="container">
+        <div class="auth-box">
+            <div class="text-center my-5">
+                <img src="assets/img/log_logo.png" alt="logo" class="img-fluid" width="240" height="60">
+            </div>
+            <div class="auth-form mx-auto">
+                <h4 class="fw-normal mb-3">Sign In</h4>
+                <form [formGroup]="form">
+                    <div class="mb-3">
+                        <ng-container *ngIf="defaultLogin == 1">
+                            <input type="email" class="form-control" placeholder="Enter Email"
+                                formControlName="username"
+                                [ngClass]="{'invalid': isSubmitting && formData['username'].errors}">
+                        </ng-container>
+                        <ng-container *ngIf="defaultLogin == 2">
+                            <ngx-intl-tel-input [cssClass]="mobInvalid"
+                                [preferredCountries]="[CountryISO.UnitedStates, CountryISO.India]"
+                                [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectFirstCountry]="false" [selectedCountryISO]="defaultCountry" [maxLength]="10"
+                                [phoneValidation]="true" [separateDialCode]="false" name="username"
+                                formControlName="username">
+                            </ngx-intl-tel-input>
+                        </ng-container>
+                        <div class="mt-1 d-flex justify-content-end link link-secondary xs">
+                            Login via
+                            <a href="javascript:;" class="link link-secondary xs mx-1" (click)="onChangeLoginMethod(1)"
+                                [ngClass]="{'selected-method': defaultLogin == 1}">
+                                Email
+                            </a>or
+                            <a href="javascript:;" class="link link-secondary xs mx-1" (click)="onChangeLoginMethod(2)"
+                                [ngClass]="{'selected-method': defaultLogin == 2}">
+                                Mobile
+                            </a>
+                        </div>
+                    </div>
+                    <div class="rel mb-3">
+                        <input [type]="passwordType" class="form-control" placeholder="Password"
+                            formControlName="password"
+                            [ngClass]="{'invalid': isSubmitting && formData['password'].errors}">
+                        <img class="eye" src="assets/img/eye-off.png" alt="eye off" width="18" height="18"
+                            (click)="passwordType = 'text'" *ngIf="passwordType == 'password'">
+                        <img class="eye" src="assets/img/eye-off.png" alt="eye on" width="18" height="18"
+                            (click)="passwordType = 'password'" *ngIf="passwordType == 'text'">
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-success fw-bold" (click)="submit()">
+                            SUBMIT
+                        </button>
+                    </div>
+                    <div class="my-1 d-flex justify-content-end">
+                        <a [routerLink]="['/' + routes.forgotPassword]" class="link link-secondary xs">Forgot
+                            Password?</a>
+                    </div>
+                </form>
+
+                <div class="text-center or-divider my-4">
+                    — — OR — —
+                </div>
+
+                <div class="social-auth d-flex gap-2 justify-content-center">
+                    <img src="assets/img/instagram.png" alt="Instagram" width="30" height="30" class="pointer">
+                    <img src="assets/img/linkedin.png" alt="LinkedIn" width="30" height="30" class="pointer">
+                    <img src="assets/img/facebook.png" alt="Facebook" width="30" height="30" class="pointer">
+                    <img src="assets/img/google.png" alt="Google" width="30" height="30" class="pointer">
+                </div>
+
+                <hr class="auth-h-divider my-3">
+                <p class="text-center mb-0">
+                    Not a Member?
+                    <a [routerLink]="['/' + routes.signUp]" class="link link-success fw-bold">
+                        Create Account
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

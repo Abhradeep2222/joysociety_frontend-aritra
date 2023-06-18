@@ -1,0 +1,88 @@
+<div class="text-center">
+	<div>
+		<img src="assets/img/logo.png" alt="logo" class="img-fluid">
+	</div>
+	<div>
+		<p class="mb-0">Below are your results.</p>
+		<p>Each section has a maximum of 25 points.</p>
+	</div>
+</div>
+
+<div class="card-container">
+	<h5>Score</h5>
+	<div class="row">
+		<div class="col-xl-4 col-lg-6">
+			<ul class="question-list ps-0">
+				<li class="mb-2" *ngFor="let item of report?.report">
+					<ng-container>
+						<span>{{ item.label }} Well-Being</span>
+					</ng-container>
+					<span>: {{ item.score }}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="offset-xl-4 col-xl-4 col-lg-6">
+			<div class="report-actions">
+				<button class="btn btn-success fw-bold py-1 my-b" (click)="gotoPart2()">
+					Comprehensive Evaluation
+				</button>
+
+				<button class="btn btn-success fw-bold p-1 my-b" (click)="downloadReport()">
+					<img src="assets/img/pdf-logo-solid.png" alt="pdf" width="36" height="36">
+					Download pdfs
+				</button>
+
+				<button class="btn btn-success fw-bold py-1 my-b" (click)="done()">
+					Done
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-container mt-4">
+	<p>
+		You perceive your <b>highest</b> level of satisfaction and happiness to be in the
+		<b *ngFor="let item of maxScores; let i = index">
+			<ng-container *ngIf="maxScores.length == 1">{{ item.label }}</ng-container>
+			<ng-container *ngIf="maxScores.length > 1">
+				{{i === maxScores.length - 1 ? 'and ' : '' }}{{ item.label }}{{i === maxScores.length - 2 ? '' :
+				',&nbsp;' }}
+			</ng-container>
+		</b>
+		Success Sphere.
+	</p>
+
+	<p>
+		You perceive your <b>lowest</b> level of satisfaction and happiness to be in the
+		<b *ngFor="let item of lowScores; let i = index">
+			<ng-container *ngIf="lowScores.length == 1">{{ item.label }}</ng-container>
+			<ng-container *ngIf="lowScores.length > 1">
+				{{i === lowScores.length - 1 ? 'and ' : '' }}{{ item.label }}{{i === lowScores.length - 2 ? '' :
+				',&nbsp;' }}
+			</ng-container>
+		</b>
+		Success Sphere.
+	</p>
+
+	<p>
+		<b>Your next step:</b> Click the button above to take Part 2 of this evaluation, a deeper dive into your scores
+		in each sphere
+	</p>
+	<!-- <p>
+		We're excited for you to go deeper into these results with Part 2 of the TRU Success Evaluation, a more
+		comprehensive look into your well-being in all 8 Spheres.
+	</p>
+	<p>Here's how to access Part 2:</p>
+	<p>
+		If you're not already a Joy Society member, join our community and gain access to our many offerings, all
+		designed to help you improve in the areas from this assessment!
+	</p>
+	<p>
+		Once you're in, go to the Learnings page, and then click on "Resource Library."
+	</p>
+	<p>
+		Use your results from Part 2 of the Evaluation, along with the TRU Success Workbook, to set goals and work
+		toward improved well-being in all 8 Success Spheres.
+	</p> -->
+</div>

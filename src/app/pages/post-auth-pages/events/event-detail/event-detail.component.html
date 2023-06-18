@@ -1,0 +1,97 @@
+<ng-container *ngIf="!!eventDetail">
+	<div class="card-container p-0">
+		<div class="rel mb-2">
+			<div class="cover-pic text-center">
+				<img [src]="eventDetail?.event_image" alt="cover photo" class="img-fluid" width="600"
+					>
+			</div>
+			<div class="cal-big">
+				<div class="rel">
+					<img src="assets/img/calender-big.png" alt="calender" class="img-fluid" width="40" class="">
+					<span class="cal-day fw-bold">{{ eventDetail.start_datetime | date: 'dd' }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="px-4 event-info">
+			<div class="event-schedule">
+				<ng-container *ngIf="eventDetail?.isToday">
+					TODAY • {{ eventDetail.start_datetime | date:'hh:mm a' }} - {{ eventDetail.end_datetime |
+					date:'hh:mm a' }}
+				</ng-container>
+				<ng-container *ngIf="!eventDetail?.isToday">
+					{{ eventDetail.start_datetime | date:'MMM dd, yyyy' }} • {{ eventDetail.start_datetime | date:'hh:mm
+					a' }} - {{ eventDetail.end_datetime | date:'MMM dd, yyyy' }} • {{ eventDetail.end_datetime |
+					date:'hh:mm a' }}
+				</ng-container>
+			</div>
+			<div class="event-title">{{ eventDetail?.title }}</div>
+			<div class="f-x-small text-muted" *ngIf="eventDetail?.event_type === 'ONLINE' && eventDetail?.zoom_link">
+				<img src="assets/img/zoom-2.png" alt="zoom meeting" width="13" height="13"
+					style="margin-left: -2px; margin-top: -2px;">
+				Zoom Meeting
+			</div>
+
+			<hr class="my-2">
+
+			<div class="row pb-2 align-items-center">
+				<div class="col-md-6">
+					<div class="tab">
+						<button class="tablinks" (click)="openTab('about')"
+							[ngClass]="{'tablink-active': active == 'about'}">
+							About Event
+						</button>
+						<button class="tablinks" (click)="openTab('chat')"
+							[ngClass]="{'tablink-active': active == 'chat'}">
+							Chat
+						</button>
+					</div>
+				</div>
+				<div class="offset-md-2 col-md-4">
+					<div class="d-flex align-items-center gap-2">
+						<select class="form-control grayed myselect " (change)="onAcceptChange($event)">
+							<option value="MAYBE">Maybe</option>
+							<option value="GOING">Going</option>
+							<option value="NOTGOING">Not Going</option>
+						</select>
+						<div class="form-control grayed pointer text-center" class="mybtn btn btn-primary"
+							(click)="joinEvent()">
+							Join Now
+						</div>
+						<div class="form-control grayed pointer text-center" class="mybtn btn btn-primary"
+							(click)="invite()">
+							Invite
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card-container mt-4 px-3" *ngIf="eventDetail?.going">
+				<div class="instructors">
+					<div class="text-muted f-x-small mb-2">{{ eventDetail?.going }} members are going</div>
+					<div class="instructors-img rel">
+						<img [src]="item.user.profile_pic" alt="member profile pic" width="30" height="30"
+							class="img-round" *ngFor="let item of users">
+					</div>
+				</div>
+			</div>
+
+			<div class="card-container mt-4 px-1">
+				<div id="about" class="tabcontent" *ngIf="active == 'about'">
+					<div class="description" [innerHTML]="eventDetail?.description"></div>
+
+					<app-feed-foot [data]="eventDetail"></app-feed-foot>
+				</div>
+				<div id="chat" class="tabcontent" *ngIf="active == 'chat'">
+					<app-section-chat [data]="eventDetail" [section]="'event'"></app-section-chat>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="col-md-4">
+
+		</div> -->
+	</div>
+</ng-container>

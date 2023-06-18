@@ -1,0 +1,49 @@
+<div class="message-list" #scrollMe>
+	<div class="no-chat-history" *ngIf="!chat.length">
+		<div>👋</div>
+		<div class="text-muted">Say hello and share a little something about yourself!</div>
+	</div>
+	<div class="chat-history" *ngIf="chat.length">
+		<main class="msger-chat">
+			<ng-container *ngFor="let item of chat">
+				<div class="msg left-msg" *ngIf="!item.author">
+					<img alt="profile pic" width="32" height="32" class="img-round me-2" 
+					[src]="item.sender.profile_pic ? item.sender.profile_pic : 'assets/img/avatar-placeholder.png'">
+					<div class="msg-bubble">
+						<div class="msg-info">
+							<div class="msg-info-name">
+								<ng-container *ngIf="item.sender.full_name">{{ item.sender.full_name }}</ng-container>
+								<ng-container *ngIf="!item.sender.full_name">
+									{{ item.sender.first_name }} {{ item.sender.last_name }}
+								</ng-container>
+							</div>
+							<div class="msg-info-time">{{ item?.timestamp ? (item?.timestamp | date:'hh:mm a') : 'Now' }}</div>
+						</div>
+
+						<div class="msg-text" [innerHTML]="item.message"></div>
+					</div>
+				</div>
+
+				<div class="msg right-msg" *ngIf="item.author">
+
+					<div class="msg-bubble">
+						<div class="msg-info">
+							<div class="msg-info-name">
+								<ng-container *ngIf="item.sender.full_name">{{ item.sender.full_name }}</ng-container>
+								<ng-container *ngIf="!item.sender.full_name">
+									{{ item.sender.first_name }} {{ item.sender.last_name }}
+								</ng-container>
+							</div>
+							<div class="msg-info-time">{{ item?.timestamp ? (item?.timestamp | date:'hh:mm a') : 'Now' }}</div>
+						</div>
+
+						<div class="msg-text" [innerHTML]="item.message"></div>
+					</div>
+				</div>
+			</ng-container>
+		</main>
+	</div>
+</div>
+<app-chat-input [type]="'chat'" (submitListener)="submitListener($event)" [placeholder]="'Add message...'"
+	[textAreaWidth]="'91%'" [data]="data" [section]="section">
+</app-chat-input>

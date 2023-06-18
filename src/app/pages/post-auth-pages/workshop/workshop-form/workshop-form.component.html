@@ -1,0 +1,105 @@
+<form [formGroup]="form">
+	<ng-container *ngIf="view == 1">
+		<div class="card-container py-4">
+			<div class="d-flex align-items-center gap-2 mb-4">
+				<div>
+					<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+				</div>
+				<div>
+					<h4 class="mb-0">Create a Workshop</h4>
+				</div>
+			</div>
+	
+			<h5 class="mb-0">The Big Stuff</h5>
+			<p>Adjust basic information about your Workshop here.</p>
+	
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">Workshop Title <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="title" placeholder="Workshop Title">
+				<div *ngIf="isSubmitting && formData['title'].errors" class="err">
+					<small [hidden]="!formData['title'].errors['required']">*Workshop title is required.</small>
+				</div>
+			</div>
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">Workshop Tagline <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="tagline" placeholder="Workshop Tagline">
+				<div *ngIf="isSubmitting && formData['tagline'].errors" class="err">
+					<small [hidden]="!formData['tagline'].errors['required']">*Workshop tagline is required.</small>
+				</div>
+			</div>
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">Workshop Description <span class="err">*</span></label>
+				<textarea class="form-control" formControlName="description" placeholder="Workshop Description" 
+				cols="30" rows="4"></textarea>
+				<div *ngIf="isSubmitting && formData['description'].errors" class="err">
+					<small [hidden]="!formData['description'].errors['required']">*Workshop description is required.</small>
+				</div>
+			</div>
+		</div>
+	
+		<div class="card-container mt-3 py-4">
+			<h5 class="mb-0">Privacy and Invites</h5>
+			<p>Change who can join, view, and send invites to your Workshop.</p>
+			<div class="form-group" [ngClass]="{'mb-3': formData['privacy'].value == 'Private'}">
+				<label class="form-label mb-0">Privacy <span class="err">*</span></label>
+				<select class="form-control" formControlName="privacy" (change)="onPrivacyChange()">
+					<option value="">--Select--</option>
+					<option value="Public">Public</option>
+					<option value="Private">Private</option>
+					<option value="Secret">Secret</option>
+				</select>
+				<div *ngIf="isSubmitting && formData['privacy'].errors" class="err">
+					<small [hidden]="!formData['privacy'].errors['required']">*Privacy setting is required.</small>
+				</div>
+			</div>
+			<div class="form-group" *ngIf="formData['privacy'].value == 'Private'">
+				<label class="form-label mb-0">Price <span class="err">*</span></label>
+				<input mask="separator.2" type="text" class="form-control" formControlName="price" placeholder="$" thousandSeparator=",">
+				<div *ngIf="isSubmitting && formData['price'].errors" class="err">
+					<small [hidden]="!formData['price'].errors['required']">*Price setting is required.</small>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="view == 2">
+		<div class="card-container py-4">
+			<div class="d-flex align-items-baseline gap-2 mb-4">
+				<div>
+					<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+				</div>
+				<div>
+					<h4>Create a Workshop</h4>
+				</div>
+			</div>
+			<h5 class="mb-0">Instructors</h5>
+			<p>
+				In a Course, members will see your Moderators and Hosts as Instructors. They will still have separate Moderator 
+				or Host permissions, but you will have the added ability to assign Instructors to Lessons.
+			</p>
+
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">You can rename your Course's Instructors here. <span class="err">*</span></label>
+				<select class="form-control" formControlName="instructor">
+					<option value="">Select Instructors</option>
+					<option [value]="item.user_id" *ngFor="let item of memberList">
+						{{ item.full_name }}
+					</option>
+				</select>
+				<div *ngIf="isSubmitting && formData['instructor'].errors" class="err">
+					<small [hidden]="!formData['instructor'].errors['required']">*Instructor is required.</small>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<div class="text-end">
+		<button class="btn btn-success xs me-2 px-4 mt-3" (click)="next()" *ngIf="view < 2">
+			Next
+			<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+		</button>
+		<button class="btn btn-success xs me-2 px-4 mt-3" (click)="next()" *ngIf="view == 2">
+			Finish
+		</button>
+	</div>
+</form>

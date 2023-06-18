@@ -1,0 +1,121 @@
+<div class="card-container">
+	<div class="card-container-header justify-content-start gap-3">
+		<img src="assets/img/workshop-placeholder.png" alt="workshop image" width="39" height="39" class="workshop-logo">
+		<div>
+			<h6 class="mb-0">{{ workshopDetail?.title }}</h6>
+			<p class="mb-0 text-muted">{{ workshopDetail?.tagline }}</p>
+		</div>
+	</div>
+	
+	<div class="tab mt-4">
+		<button class="tablinks" (click)="openTab(1)" [ngClass]="{'tablink-active': view == 1}">
+			Table of Content
+		</button>
+		<button class="tablinks" (click)="openTab(2)" [ngClass]="{'tablink-active': view == 2}">
+			Feed
+		</button>
+		<button class="tablinks" [disabled]="true" (click)="openTab(3)" [ngClass]="{'tablink-active': view == 3}">
+			Members
+		</button>
+		<button class="tablinks" (click)="openTab(4)" [ngClass]="{'tablink-active': view == 4}">
+			Chat
+		</button>
+	</div>
+
+	
+	<hr class="my-0">
+	
+	<div id="1" class="tabcontent mt-2" *ngIf="view == 1">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="table-content-dummy p-1 pointer mb-3">
+					<span class="main p-1" (click)="addContent('Overview', overview)">
+						{{ overview?.title ? overview?.title : 'Overview'}}
+					</span>
+					<span ngbDropdown placement="bottom-end" display="dynamic" class="action p-1 action-items" container="body">
+						<a href="javascript:;" class="context-menu" ngbDropdownToggle id="overview-dd">
+							<img src="assets/img/dots.png" class="dots v" alt="overview" width="12" height="3">
+						</a>
+						<ul ngbDropdownMenu aria-labelledby="overview-dd" class="custom-dd-menu x-small">
+							<li ngbDropdownItem class="pointer" (click)="addContent('Overview', overview)">Edit</li>
+							<li ngbDropdownItem class="pointer" (click)="deleteContent('Overview', overview)">Delete</li>
+						</ul>
+					</span>
+				</div>
+				<div class="table-content-dummy p-1 pointer mb-3" *ngFor="let item of lessons; let i = index">
+					<span class="main p-1" (click)="addContent('Lesson', item)">
+						{{ item.title ? item.title : 'New Lesson' }}
+					</span>
+					<span ngbDropdown placement="bottom-end" display="dynamic" class="action p-1 action-items" container="body">
+						<a href="javascript:;" class="context-menu" ngbDropdownToggle id=lesson-dd-{{i+1}}>
+							<img src="assets/img/dots.png" class="dots v" alt="overview" width="12" height="3">
+						</a>
+						<ul ngbDropdownMenu [attr.aria-labelledby]="'lesson-dd-' + (i+1)" class="custom-dd-menu x-small">
+							<li ngbDropdownItem class="pointer" (click)="addContent('Lesson', item)">Edit</li>
+							<li ngbDropdownItem class="pointer" (click)="deleteContent('Lesson', item)">Delete</li>
+						</ul>
+					</span>
+				</div>
+				<button class="btn btn-success fw-bold f-x-small" (click)="addContent('Lesson', null)">
+					+ Add Lesson
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="3" class="tabcontent mt-2" *ngIf="view == 3">
+		Members
+	</div>
+	<div id="4" class="tabcontent mt-2" *ngIf="view == 4">
+		<app-section-chat [data]="workshopDetail" [section]="'workshop'"></app-section-chat>
+	</div>
+</div>
+
+
+<div id="2" class="tabcontent" *ngIf="view == 2">
+	<div class="card-container">
+		<app-post (emitter)="emitter($event)" [data]="{id: id, parent: 'workshop'}"></app-post>
+	</div>
+
+	<ng-container *ngFor="let item of feeds">
+		<div class="card-container mt-4">
+			<app-feed-head [data]="item"></app-feed-head>
+
+			<div class="feed-body">
+				<ng-container *ngIf="item.content_type == 'QuickPost' || item.content_type == 'LongPost'">
+					<div [innerHTML]="item.content.post" class="word-overflow-wrap"></div>
+				</ng-container>
+				<ng-container *ngIf="item.content_type == 'QuestionPoll'">
+					<ng-container *ngIf="item.content._type == 'QUESTION'">
+						<div class="poll">
+							<app-question-poll [data]="item"></app-question-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'MULTIPLE CHOICE'">
+						<div class="poll">
+							<app-multiple-choice-poll [data]="item" (answerListener)="answerListener($event)"></app-multiple-choice-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'PERCENTAGE'">
+						<div class="poll">
+							<app-percentage-poll [data]="item" (answerListener)="answerListener($event)"></app-percentage-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'HOT COLD'">
+						<div class="poll">
+							<app-hot-cold-poll [data]="item" (answerListener)="answerListener($event)"></app-hot-cold-poll>
+						</div>
+					</ng-container>
+				</ng-container>
+			</div>
+
+			<app-feed-foot [data]="item"></app-feed-foot>
+		</div>
+		<div class="spin-container mt-4" *ngIf="isLoading">
+			<div class="loader"></div>
+		</div>
+	</ng-container>
+</div>

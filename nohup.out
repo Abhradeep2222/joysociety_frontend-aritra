@@ -1,0 +1,137 @@
+
+> joy-society-crm@0.0.0 start
+> ng serve "--host=0.0.0.0"
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                                        |  Raw Size
+vendor.js                                                                                               | vendor                                       |   3.78 MB |
+polyfills.js                                                                                            | polyfills                                    |   1.15 MB |
+styles.css, styles.js                                                                                   | styles                                       | 486.40 kB |
+main.js                                                                                                 | main                                         | 154.90 kB |
+runtime.js                                                                                              | runtime                                      |  12.97 kB |
+
+| Initial Total                                |   5.56 MB
+
+Lazy Chunk Files                                                                                        | Names                                        |  Raw Size
+src_app_pages_post-auth-pages_post-auth-pages_module_ts.js                                              | pages-post-auth-pages-post-auth-pages-module |   3.23 MB |
+src_app_pages_pre-auth-pages_pre-auth-pages_module_ts.js                                                | pages-pre-auth-pages-pre-auth-pages-module   | 975.47 kB |
+default-src_app_shared_components_popups_info-popup_info-popup_component_ts-src_app_shared_mo-0d5383.js | pages-pre-auth-pages-pre-auth-pages-module   |  96.54 kB |
+
+Build at: 2023-05-25T17:04:25.058Z - Hash: 1dbb2acf1170fdab - Time: 22974ms
+
+Warning: /home/ubuntu/work/joysociety_frontend/node_modules/ngx-intl-tel-input/fesm2020/ngx-intl-tel-input.mjs depends on 'google-libphonenumber'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: /home/ubuntu/work/joysociety_frontend/src/app/pages/post-auth-pages/home/home.component.ts depends on 'moment'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
+
+> joy-society-crm@0.0.0 start
+> ng serve "--host=0.0.0.0"
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+- Generating browser application bundles (phase: setup)...
+
+> joy-society-crm@0.0.0 start
+> ng serve
+
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                                        |  Raw Size
+vendor.js                                                                                               | vendor                                       |   3.78 MB |
+polyfills.js                                                                                            | polyfills                                    |   1.15 MB |
+styles.js, styles.css                                                                                   | styles                                       | 486.40 kB |
+main.js                                                                                                 | main                                         | 154.90 kB |
+runtime.js                                                                                              | runtime                                      |  12.97 kB |
+
+| Initial Total                                |   5.56 MB
+
+Lazy Chunk Files                                                                                        | Names                                        |  Raw Size
+src_app_pages_post-auth-pages_post-auth-pages_module_ts.js                                              | pages-post-auth-pages-post-auth-pages-module |   3.23 MB |
+src_app_pages_pre-auth-pages_pre-auth-pages_module_ts.js                                                | pages-pre-auth-pages-pre-auth-pages-module   | 975.47 kB |
+default-src_app_shared_components_popups_info-popup_info-popup_component_ts-src_app_shared_mo-0d5383.js | pages-pre-auth-pages-pre-auth-pages-module   |  96.54 kB |
+
+Build at: 2023-05-26T14:05:11.196Z - Hash: 6bac2fd986c4534e - Time: 29412ms
+
+Warning: /home/ubuntu/work/joysociety_frontend/node_modules/ngx-intl-tel-input/fesm2020/ngx-intl-tel-input.mjs depends on 'google-libphonenumber'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: /home/ubuntu/work/joysociety_frontend/src/app/pages/post-auth-pages/home/home.component.ts depends on 'moment'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
+
+> joy-society-crm@0.0.0 start
+> ng serve "--host=0.0.0.0"
+
+? Port 4200 is already in use.
+Would you like to use a different port? (Y/n) [46D[46CTerminated
+
+> joy-society-crm@0.0.0 start
+> ng serve "--host=0.0.0.0"
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                                        |  Raw Size
+vendor.js                                                                                               | vendor                                       |   3.78 MB |
+polyfills.js                                                                                            | polyfills                                    |   1.15 MB |
+styles.css, styles.js                                                                                   | styles                                       | 486.40 kB |
+main.js                                                                                                 | main                                         | 154.90 kB |
+runtime.js                                                                                              | runtime                                      |  12.97 kB |
+
+| Initial Total                                |   5.56 MB
+
+Lazy Chunk Files                                                                                        | Names                                        |  Raw Size
+src_app_pages_post-auth-pages_post-auth-pages_module_ts.js                                              | pages-post-auth-pages-post-auth-pages-module |   3.23 MB |
+src_app_pages_pre-auth-pages_pre-auth-pages_module_ts.js                                                | pages-pre-auth-pages-pre-auth-pages-module   | 975.47 kB |
+default-src_app_shared_components_popups_info-popup_info-popup_component_ts-src_app_shared_mo-0d5383.js | pages-pre-auth-pages-pre-auth-pages-module   |  96.54 kB |
+
+Build at: 2023-05-30T17:03:16.110Z - Hash: e163a5274ba37973 - Time: 21892ms
+
+Warning: /home/ubuntu/work/joysociety_frontend/node_modules/ngx-intl-tel-input/fesm2020/ngx-intl-tel-input.mjs depends on 'google-libphonenumber'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: /home/ubuntu/work/joysociety_frontend/src/app/pages/post-auth-pages/home/home.component.ts depends on 'moment'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.

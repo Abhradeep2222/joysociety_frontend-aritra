@@ -1,0 +1,26 @@
+<div class="d-flex align-items-center justify-content-between">
+	<div class="d-flex align-items-baseline gap-2">
+		<div>
+			<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+		</div>
+		<div>
+			<h4 class="mb-3">Reorder Workshop List</h4>
+		</div>
+	</div>
+	<a [routerLink]="['/' + routes.workshops]" class="btn btn-success fw-bold f-x-small">
+		Workshop List
+	</a>
+</div>
+
+<p class="">You can drag and drop to arrange list as per your requirements</p>
+
+<ul class="ps-0 order-list" (scroll)="scroll($event)">
+	<li *ngFor="let item of workshops; let i = index;" class="pointer mb-3" (drop)="drop($event, item, i+1)"
+		(dragover)="allowDrop($event)" id="drag_{{item.id}}">
+		<a href="javascript:;" class="d-block p-3" draggable="true" (dragstart)="drag($event, item, i+1)"
+			id=drag_item_{{item.id}}>{{ item.title }}</a>
+	</li>
+	<li class="spin-container" *ngIf="isLoading">
+		<div class="loader"></div>
+	</li>
+</ul>

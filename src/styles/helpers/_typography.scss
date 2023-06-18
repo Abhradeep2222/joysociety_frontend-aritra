@@ -1,0 +1,35 @@
+.text-main-green {
+    color: map-get(map-get($palette, green), dark);
+}
+
+.light-green {
+    color: map-get(map-get($palette, green), light-2);
+}
+
+.light-yellow-base {
+    color: map-get(map-get($palette, yellow), base);
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.f-x-small {
+    font-size: map-get($fontSize, x-small);
+}
+
+.f-small {
+    font-size: map-get($fontSize, small);
+}
+
+.f-regular {
+    font-size: map-get($fontSize, regular);
+}
+
+.word-overflow-wrap {
+    overflow-wrap: break-word;
+}
+
+.b-0 {
+    border: 0;
+}

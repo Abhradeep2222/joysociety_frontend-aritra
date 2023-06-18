@@ -1,0 +1,27 @@
+.order-list {
+    list-style-type: none;
+    max-height: 700px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    li {
+        background-color: #fff;
+        border-radius: 12px;
+
+        a {
+            color: #191919;
+            text-decoration: none;
+        }
+    }
+}
+
+.hamburger {
+    width: 14px;
+    height: 1px;
+    background-color: #bababa;
+    margin: 3px 0;
+    display: block;
+}

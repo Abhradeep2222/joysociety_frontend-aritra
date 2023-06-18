@@ -1,0 +1,36 @@
+<div class="card-container">
+    <div class="card-container-header">
+        <h6 class="mb-0">
+			Add Lesson
+        </h6>
+    </div>
+
+	<hr class="e2e">
+
+	<div>
+		<form [formGroup]="form">
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">Title <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="title" placeholder="Title">
+				<div *ngIf="isSubmitting && formData['title'].errors" class="err">
+					<small [hidden]="!formData['title'].errors['required']">*Ttitle is required.</small>
+				</div>
+			</div>
+			<div class="form-group mb-3">
+				<label class="form-label mb-0">Content</label>
+				<editor formControlName="detail" apiKey="apiKey" [init]="tinymceConfig"></editor>
+				<div *ngIf="isSubmitting && formData['detail'].errors" class="err">
+					<small [hidden]="!formData['detail'].errors['required']">*Content is required.</small>
+				</div>
+			</div>
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-secondary xs border-0 px-4 me-2" (click)="cancelAction()">
+					Cancel
+				</button>
+				<button class="btn btn-success xs px-4" (click)="submit()">
+					Save
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,91 @@
+<div class="card-container">
+    <div class="card-container-header">
+        <h6 class="mb-0">
+            <div class="d-flex align-items-center">
+                <img src="assets/img/member-invite.png" alt="invite member" width="15" height="15" class="me-3">
+                {{ config?.title ? config?.title : 'Welcome New Members' }}
+            </div>
+        </h6>
+    </div>
+
+    <hr class="e2e">
+    
+    <div class="invite invite-link">
+        <p class="title mb-0">Invite by Link</p>
+        <p class="text-muted mb-0">Copy the link below to invite people</p>
+        <div class="link-field mt-2">
+            <div class="link">{{ inviteContent?.invite_link }}</div>
+            <div class="copy" ngxClipboard [cbContent]="inviteContent?.invite_link" (click)="copyLink()">
+                Copy Link
+            </div>
+        </div>
+    </div>
+
+    <hr class="">
+
+    <div class="invite invite-email">
+        <p class="title mb-0">Invite by Email</p>
+        <form [formGroup]="form">
+            <div class="mb-2">
+                <tag-input [trimTags]="true" [modelAsStrings]="true" [allowDupes]="false" [separatorKeyCodes]="[32]" formControlName="emails" 
+                class="form-control" [placeholder]="'Add email'" [secondaryPlaceholder]="'Add multiple emails'"
+                [validators]="emailValidate"></tag-input>
+                <div *ngIf="isSubmitting && formData['emails'].errors" class="err">
+                    <small [hidden]="!formData['emails'].errors['required']">*Email is required.</small>
+                    <small [hidden]="!formData['emails'].errors['pattern']">*Invalid email.</small>
+                </div>
+            </div>
+            <div class="mb-2 rel">
+                <img src="assets/img/invite-content.png" alt="invite" class="img-fluid invite-content-img" width="24" height="24">
+                <textarea class="form-control" cols="30" rows="6" placeholder="Content" formControlName="template"></textarea>
+                <div *ngIf="isSubmitting && formData['template'].errors" class="err">
+                    <small [hidden]="!formData['template'].errors['required']">*Content is required.</small>
+                </div>
+            </div>
+            <div class="mb-2">
+                <p class="mb-0">Choose what permissions these members will have in Joy Society.</p>
+                <div class="inline-fields">
+                    <div class="roles me-2">
+                        <select class="form-control" formControlName="role">
+                            <option value="">Select Role</option>
+                            <option [value]="item.id" *ngFor="let item of roles">
+                                Invite as {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary-outline xs px-4 me-2">
+                        Import Contacts
+                    </button>
+                    <button class="btn btn-secondary-outline xs px-4 me-2">
+                        Upload CSV
+                    </button>
+                </div>
+                <div *ngIf="isSubmitting && formData['role'].errors" class="err">
+                    <small [hidden]="!formData['role'].errors['required']">*Role is required.</small>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- <hr class="">
+    
+    <div class="invite invite-social">
+        <p class="title mb-2">Invite by</p>
+        <div class="social-auth d-flex gap-2">
+            <img src="assets/img/linkedin.png" alt="LinkedIn" width="40" height="40" class="pointer">
+            <img src="assets/img/facebook.png" alt="Facebook" width="40" height="40" class="pointer">
+        </div>
+    </div> -->
+
+    <hr class="">
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success xs me-2 px-4" (click)="Send()">
+            Send
+        </button>
+        <button class="btn btn-secondary xs border-0 px-4" (click)="cancel()" *ngIf="!config?.isCancelHidden">
+            Cancel
+        </button>
+    </div>
+
+</div>

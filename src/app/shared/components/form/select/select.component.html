@@ -1,0 +1,17 @@
+<ng-select 
+    [items]="items"
+    [(ngModel)]="defaultValue"
+    [bindLabel]="config.bindLabel" 
+    [bindValue]="config.bindValue" 
+    [closeOnSelect]="true" 
+    [multiple]="false" 
+    [hideSelected]="true" 
+    [typeahead]="input$" 
+    [loading]="isLoading"
+    placeholder={{config.placeholder}} 
+    (scrollToEnd)="scrollToEnd('end')"
+    (clear)="clear()" 
+    (change)="change($event)">
+</ng-select>
+
+<!-- formControlName="location" -->

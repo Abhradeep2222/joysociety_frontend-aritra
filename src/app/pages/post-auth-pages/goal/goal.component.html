@@ -1,0 +1,24 @@
+<div>
+	<div class="d-flex gap-2 mb-4">
+		<div>
+			<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+		</div>
+		<h4 class="mb-0">Goals </h4>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 mb-3" *ngFor="let item of goalSteps">
+			<ng-container *ngIf="item?.pathParam">
+				<a class="goal-options" [routerLink]="[item.path, item?.pathParam]">
+					<img [src]="item.logo" [alt]="item.title" [width]="item.width" [height]="item.height">
+					<p class="mb-0 title">{{ item.title }}</p>
+				</a>
+			</ng-container>
+			<ng-container *ngIf="!item?.pathParam">
+				<a class="goal-options" [routerLink]="[item.path]">
+					<img [src]="item.logo" [alt]="item.title" [width]="item.width" [height]="item.height">
+					<p class="mb-0 title">{{ item.title }}</p>
+				</a>
+			</ng-container>
+		</div>
+	</div>
+</div>

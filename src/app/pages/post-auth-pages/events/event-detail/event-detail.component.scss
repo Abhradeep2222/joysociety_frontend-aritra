@@ -1,0 +1,63 @@
+.card-container {
+    border-radius: 6px;
+}
+
+.cal-big {
+    position: absolute;
+    bottom: 0;
+    left: 24px;
+
+    .cal-day {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        top: 16px;
+    }
+}
+
+.cover-pic {
+
+    img {
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        width: 100%;
+        max-width: 600px;
+        max-height: 450px;
+    }
+}
+.event-info {
+    line-height: 22px;
+
+    .event-schedule {
+        color: #0b675f;
+        font-weight: 600;
+    }
+    
+    .event-title {
+        font-size: 1.25rem;
+    }
+}
+
+.instructors {
+    .instructors-img {
+        img {
+            margin-left: -8px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}
+.description{
+    font-style: italic;
+    font-weight: bold;
+}
+.mybtn{
+    background-color: #0b675f;
+}
+select{
+    background-color: #0b675f !important;
+    color: white !important;
+
+}

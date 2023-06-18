@@ -1,0 +1,60 @@
+@import "../../../../styles/core/variables";
+
+.ngb-dropdown-body {
+    .filters {
+        .filter-items {
+            border-radius: 25px;
+            font-size: map-get($fontSize, x-small);
+            font-weight: 500;
+
+            &.active {
+                background-color: #d5f1e3;
+                color: map-get(map-get($palette, green), light-2);
+            }
+
+            &:hover {
+                color: map-get(map-get($palette, green), light-2);
+            }
+        }
+    }
+}
+
+.notifications {
+    overflow-y: auto;
+
+    .notification-items {
+        .section-title {
+            font-weight: 600;
+            &.active {
+                color: map-get(map-get($palette, green), light-2);
+            }
+        }
+    
+        .notification-text {
+            white-space: break-spaces;
+            line-height: 1.3333;
+    
+            .mute {
+                font-weight: normal;
+                color: #6e7682;
+                font-size: map-get($fontSize, x-small);
+            }
+        }
+
+        .notification-new {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: map-get(map-get($palette, green), light-2);
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            top: calc(50% - 8px);
+        }
+    }
+}
+
+.see-all {
+    color: map-get(map-get($palette, green), light-2);
+    font-weight: 600;
+}

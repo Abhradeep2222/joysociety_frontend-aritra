@@ -1,0 +1,81 @@
+<div ngbDropdown placement="bottom-end" display="dynamic">
+	<a href="javascript:;" class="nav-link" id="notification-dd" ngbDropdownToggle>
+		<img src="assets/img/msg.png" alt="chat" width="16" height="15">
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+            2
+        </span>
+	</a>
+	<ul ngbDropdownMenu aria-labelledby="notification-dd" class="custom-dd-menu">
+		<div [style.max-height]="ddHeight + 'px'" class="notifications">
+            <li class="no-hover">
+                <div class="ngb-dropdown-header">
+                    <div class="ngb-dropdown-title">
+                        Chat
+                    </div>
+                    <div class="ngb-dropdown-actions">
+						<div class="action-items">
+							<a href="javascript:;" class="context-menu">
+                                <img src="assets/img/invite.png" alt="invite" width="18" height="11">
+                            </a>
+						</div>
+						<div class="action-items">
+							<a href="javascript:;" class="context-menu">
+                                <img src="assets/img/expand.png" alt="expand" width="12" height="12">
+                            </a>
+						</div>
+                        <div ngbDropdown placement="bottom-end" display="dynamic" class="action-items">
+                            <a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+                                <img src="assets/img/dots.png" alt="more" width="14" height="3">
+                            </a>
+                            <ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu small">
+                                <li ngbDropdownItem class="pointer">
+                                    <img class="me-2" src="assets/img/settings.png" alt="settings" width="16" height="16">
+                                    Notification settings
+                                </li>
+                                <li ngbDropdownItem class="pointer">
+                                    <img class="me-2" src="assets/img/send.png" alt="all notifications" width="16" height="16">
+                                    View all notifications
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ngb-dropdown-body">
+                    <div class="search-chat rel w-100">
+                        <input type="search" class="form-control" placeholder="Search">
+						<img src="assets/img/search.png" alt="search" width="16" height="16">
+                    </div>
+                </div>
+            </li>
+    
+            <li class="no-hover notification-items" *ngIf="chat.length">
+                <ul class="p-0 section-body">
+                    <ng-container [ngTemplateOutlet]="notificationTemplate" *ngFor="let item of chat"
+                        [ngTemplateOutletContext]="{item: item}">
+                    </ng-container>
+                </ul>
+            </li>
+        </div>
+
+        <hr class="section-divider mx-0">
+
+        <li ngbDropdownItem class="pointer no-hover text-center see-all">
+            See All
+        </li>
+	</ul>
+</div>
+
+<ng-template let-item="item" #notificationTemplate>
+    <li ngbDropdownItem class="pointer">
+        <a [routerLink]="['/']" class="ps-2 rel">
+            <div class="d-flex align-items-center gap-2">
+                <img [src]="item.img" alt="pic" width="48" height="48">
+                <div class="notification-text">
+                    <strong>{{ item.name }}</strong> 
+                    <span class="mute ms-1">{{ item.description }}</span>
+                    <div class="mute">{{ item.time }}</div>
+                </div>
+            </div>
+        </a>
+    </li>
+</ng-template>

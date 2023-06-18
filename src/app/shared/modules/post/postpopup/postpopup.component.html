@@ -1,0 +1,79 @@
+<div class="p-4">
+	<div class="d-flex justify-content-between mb-4">
+		<div class="d-flex gap-2">
+			<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			<h4 class="mb-0">Post</h4>
+		</div>
+		<div>
+			<div ngbDropdown class="d-inline-block">
+				<button type="button" class="btn btn-secondary-outline xs me-2 px-4" id="post-btn" ngbDropdownToggle>
+					{{ postType == 'quick' ? 'Quick' : 'Long'}} Post
+				</button>
+				<div ngbDropdownMenu aria-labelledby="post-btn">
+					<button ngbDropdownItem (click)="onPostTypeChange('quick')">Quick Post</button>
+					<button ngbDropdownItem (click)="onPostTypeChange('long')">Long Post</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="f-x-small mb-1" *ngIf="!data">
+		Posting to 
+		<div ngbDropdown class="d-inline-block">
+			<b id="posting-to" class="gap-0 pointer" ngbDropdownToggle>{{ postingToSelected.title }}</b>
+			<div ngbDropdownMenu aria-labelledby="posting-to" class="posting-to" (scroll)="scroll($event)">
+				<div class="card-container p-0 mb-3">
+					<div class="tab">
+						<button class="tablinks" (click)="openTab(1)" [ngClass]="{'tablink-active': postingToView == 1}">
+							Workshop
+						</button>
+						<button class="tablinks" (click)="openTab(2)" [ngClass]="{'tablink-active': postingToView == 2}">
+							Tribe
+						</button>
+					</div>
+					<hr class="my-0">
+				</div>
+				<div>
+					<app-search (listener)="filter($event)"></app-search>
+				</div>
+				<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('', {id: null, title: 'Joy Society'})">
+					<img src="assets/img/workshop-placeholder.png" alt="Joy Society" width="35" height="35" class="img-round">
+					<span>Joy Society</span>
+				</div>
+				
+				<ng-container *ngIf="postingToView == 1">
+					<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('workshop', item)" *ngFor="let item of postingToData">
+						<img src="assets/img/workshop-placeholder.png" [alt]="item.title" width="35" height="35" class="img-round">
+						<span>{{ item.title }}</span>
+					</div>
+				</ng-container>
+				<ng-container *ngIf="postingToView == 2">
+					<div ngbDropdownItem class="pointer d-flex align-items-center gap-2" (click)="postTo('tribe', item)" *ngFor="let item of postingToData">
+						<img [src]="item?.tribe_url ? item?.tribe_url : 'assets/img/workshop-placeholder.png'" [alt]="item.title" width="35" height="35" class="img-round">
+						<span>{{ item.title }}</span>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+	<form [formGroup]="form" [ngClass]="{
+		'quick-form': postType == 'quick',
+		'long-form': postType == 'long'
+	}">
+		<editor formControlName="post" apiKey="apiKey" [init]="tinymceConfigQuick" *ngIf="postType == 'quick'"></editor>
+		<editor formControlName="post" apiKey="apiKey" [init]="tinymceConfigLong" *ngIf="postType == 'long'"></editor>
+		<div class="mt-2 d-flex justify-content-end">
+			<button class="btn btn-secondary xs border-0 px-4 me-2" (click)="cancel()">
+				Cancel
+			</button>
+			<button class="btn btn-success xs border-0 px-4" (click)="submit()">
+				Submit
+			</button>
+		</div>
+		<div *ngIf="isSubmitting && formData['post'].errors" class="err">
+			<small [hidden]="!formData['post'].errors['required']">*Content is required.</small>
+			<small [hidden]="!formData['post'].errors['maxlength']">
+				*Max length allowed for {{ postType }} post is {{ formData['post'].errors['allowed'] }}.
+			</small>
+		</div>
+	</form>
+</div>

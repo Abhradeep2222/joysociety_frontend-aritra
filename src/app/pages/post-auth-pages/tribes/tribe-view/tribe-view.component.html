@@ -1,0 +1,79 @@
+<div class="card-container">
+	<div class="card-container-header justify-content-start gap-3">
+		<img [src]="tribeDetail?.tribe_url ? tribeDetail?.tribe_url : 'assets/img/workshop-placeholder.png'" 
+		alt="workshop image" width="39" height="39" class="tribe-logo">
+		<div>
+			<h6 class="mb-0">{{ tribeDetail?.title }}</h6>
+			<p class="mb-0 text-muted">{{ tribeDetail?.tagline }}</p>
+		</div>
+	</div>
+
+	<div class="tab mt-4">
+		<button class="tablinks" (click)="openTab(1)" [ngClass]="{'tablink-active': view == 1}">
+			Feed
+		</button>
+		<button class="tablinks" [disabled]="true" (click)="openTab(2)" [ngClass]="{'tablink-active': view == 2}">
+			Members
+		</button>
+		<button class="tablinks" (click)="openTab(3)" [ngClass]="{'tablink-active': view == 3}">
+			Chat
+		</button>
+	</div>
+
+	<hr class="my-0">
+
+	<div id="2" class="tabcontent mt-2" *ngIf="view == 2">
+		Members
+	</div>
+	<div id="3" class="tabcontent mt-2" *ngIf="view == 3">
+		<app-section-chat [data]="tribeDetail" [section]="'tribe'"></app-section-chat>
+	</div>
+</div>
+
+<div id="1" class="tabcontent" *ngIf="view == 1">
+	<div class="card-container">
+		<app-post (emitter)="emitter($event)" [data]="{id: id, parent: 'tribe'}"></app-post>
+	</div>
+
+	<ng-container *ngFor="let item of feeds">
+		<div class="card-container mt-4">
+			<app-feed-head [data]="item"></app-feed-head>
+
+			<div class="feed-body">
+				<ng-container *ngIf="item.content_type == 'QuickPost' || item.content_type == 'LongPost'">
+					<div [innerHTML]="item.content.post" class="word-overflow-wrap"></div>
+				</ng-container>
+				<ng-container *ngIf="item.content_type == 'QuestionPoll'">
+					<ng-container *ngIf="item.content._type == 'QUESTION'">
+						<div class="poll">
+							<app-question-poll [data]="item"></app-question-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'MULTIPLE CHOICE'">
+						<div class="poll">
+							<app-multiple-choice-poll [data]="item" (answerListener)="answerListener($event)"></app-multiple-choice-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'PERCENTAGE'">
+						<div class="poll">
+							<app-percentage-poll [data]="item" (answerListener)="answerListener($event)"></app-percentage-poll>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="item.content._type == 'HOT COLD'">
+						<div class="poll">
+							<app-hot-cold-poll [data]="item" (answerListener)="answerListener($event)"></app-hot-cold-poll>
+						</div>
+					</ng-container>
+				</ng-container>
+			</div>
+
+			<app-feed-foot [data]="item"></app-feed-foot>
+		</div>
+		<div class="spin-container mt-4" *ngIf="isLoading">
+			<div class="loader"></div>
+		</div>
+	</ng-container>
+</div>

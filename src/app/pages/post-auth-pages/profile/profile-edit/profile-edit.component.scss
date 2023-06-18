@@ -1,0 +1,62 @@
+.card-container {
+
+    .profile-images {
+        position: relative;
+
+        .cover-pic {
+            img {
+                border-radius: 6px;
+                width: 100%;
+            }
+            .cover-upload-handle {
+                position: absolute;
+                right: 15px;
+                bottom: 10px;
+            }
+        }
+
+        .profile-pic {
+            position: absolute;
+            bottom: -38px;
+            left: 25px;
+            .dp {
+                display: inline-block;
+                width: 85px;
+                height: 85px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #fff;
+            }
+
+            .profile-upload-handle {
+                position: absolute;
+                bottom: 4px;
+                right: 6px;
+            }
+        }
+
+        .upload-handle {
+            img {
+                border-radius: 50%;
+                background: #ebeef2;
+                padding: 3px 3px;
+            }
+        }
+    }
+
+    .personal-info {
+        margin-top: 60px;
+        
+        .title {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+    }
+
+    .personal-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+}

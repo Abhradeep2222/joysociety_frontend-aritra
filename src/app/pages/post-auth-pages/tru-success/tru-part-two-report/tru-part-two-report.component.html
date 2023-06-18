@@ -1,0 +1,68 @@
+<div class="text-center">
+	<div>
+		<img src="assets/img/logo.png" alt="logo" class="img-fluid">
+	</div>
+	<div>
+		<p class="mb-0">Below are your results.</p>
+		<p>Each section has a maximum of 25 points.</p>
+	</div>
+</div>
+
+<div class="card-container">
+    <h5>Score</h5>
+    <div class="row">
+		<div class="col-xl-4 col-lg-6">
+			<ul class="question-list ps-0">
+				<li class="mb-2" *ngFor="let item of report?.report">
+					<ng-container>
+						<span>{{ item.label }} Well-Being</span>
+					</ng-container>
+					<span>: {{ item.score }}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="offset-xl-4 col-xl-4 col-lg-6">
+			<div class="report-actions">
+				<button class="btn btn-danger fw-bold p-0" (click)="downloadReport()">
+					<img src="assets/img/pdf-logo-solid.png" alt="pdf" width="36" height="36">
+					Download pdf
+				</button>
+				<button class="btn btn-success fw-bold py-1" (click)="done()">
+					Done
+				</button>
+				<!-- <a class="btn btn-success fw-bold py-1" [routerLink]="['/' + routes.goal]">
+					Goal Settings
+				</a> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-container mt-4">
+
+	<p>
+		You perceive your <b>highest</b> level of satisfaction and happiness to be in the 
+		<b *ngFor="let item of maxScores; let i = index">
+			<ng-container *ngIf="maxScores.length == 1">{{ item.label }}</ng-container>
+			<ng-container *ngIf="maxScores.length > 1">
+				{{i === maxScores.length - 1 ? 'and ' : '' }}{{ item.label }}{{i === maxScores.length - 2 ? '' : ',&nbsp;' }}
+			</ng-container>
+		</b> 
+		Success Sphere.
+	</p>
+
+	<p>
+		You perceive your <b>lowest</b> level of satisfaction and happiness to be in the 
+		<b *ngFor="let item of lowScores; let i = index">
+			<ng-container *ngIf="lowScores.length == 1">{{ item.label }}</ng-container>
+			<ng-container *ngIf="lowScores.length > 1">
+				{{i === lowScores.length - 1 ? 'and ' : '' }}{{ item.label }}{{i === lowScores.length - 2 ? '' : ',&nbsp;' }}
+			</ng-container>
+		</b> 
+		Success Sphere.
+	</p>
+
+    <p>
+        <b>Your next step:</b> Use this new insight to support you in setting and achieving your goals.
+    </p>
+</div>

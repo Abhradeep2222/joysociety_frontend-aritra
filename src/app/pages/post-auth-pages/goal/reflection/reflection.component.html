@@ -1,0 +1,813 @@
+<div class="d-flex gap-2 mb-4">
+	<div>
+		<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+	</div>
+	<h4 class="mb-0 text-capitalize">Goal Setting </h4>
+</div>
+
+<div class="stepper-wrapper">
+	<div class="stepper-item {{item?.status}}" *ngFor="let item of totalSteps">
+		<div class="step-counter">{{ item.step }}</div>
+	</div>
+</div>
+
+
+<div>
+	<ng-container *ngIf="view == 1">
+		<h5 class="mb-0">TRU Success Evaluation</h5>
+		<p class="text-muted">
+			TRU Success Evaluation Scores/Results - Below are your results
+		</p>
+		<div class="table-responsive screen-shadow">
+			<table class="table mb-0">
+				<thead>
+					<tr>
+						<th scope="col">Success Sphere</th>
+						<th scope="col">Part 1 General</th>
+						<th scope="col">Part 2 Comprehensive</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of reflectionData">
+						<th scope="row" class="fw-normal th-label w-50">{{ item.label }}</th>
+						<td class="score1">{{ item.score1 }}</td>
+						<td class="score2">{{ item.score2 }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-end mt-3" *ngIf="reflectionData?.length">
+			<button class="btn btn-secondary xs me-2 px-4 fw-bold" (click)="skip(3)">
+				Skip
+			</button>
+			<button class="btn btn-success xs me-2 px-4 fw-bold" (click)="next(2)">
+				Next
+				<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+			</button>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="view == 2">
+		<div class="card-container screen-shadow p-0">
+			<div class="card-container-header">
+				<p class="mb-0">Your Main Objectives</p>
+			</div>
+
+			<form class="form-container" [formGroup]="formReflection">
+				<div class="row">
+					<div class="col-md-6 mb-4">
+						<label>I want to improve my success in the</label>
+						<select class="form-control" formControlName="sphere_1" (change)="validateSelection()">
+							<option value="">Choose One</option>
+							<option [value]="item.id" *ngFor="let item of sphereList">
+								{{ item.name }}
+							</option>
+						</select>
+						<div *ngIf="isSubmitting && formDataReflection['sphere_1'].errors" class="err">
+							<small [hidden]="!formDataReflection['sphere_1'].errors['required']">*Please Select a
+								sphere.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<label>I want to improve my success in the</label>
+						<select class="form-control" formControlName="sphere_2" (change)="validateSelection()">
+							<option value="">Choose One</option>
+							<option [value]="item.id" *ngFor="let item of sphereList">
+								{{ item.name }}
+							</option>
+						</select>
+						<div *ngIf="isSubmitting && formDataReflection['sphere_2'].errors" class="err">
+							<small [hidden]="!formDataReflection['sphere_2'].errors['required']">*Please Select a
+								sphere.</small>
+							<small [hidden]="!formDataReflection['sphere_2'].errors['duplicate']">*Please Select a
+								different sphere.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<!-- <label>
+							How will your life look different in 1 year if/when you improve your success in Sphere #1?
+						</label> -->
+						<textarea class="form-control" cols="30" rows="11" formControlName="sphere_1_answer"
+							placeholder="How will your life look different in 2 year if/when you improve your success in Sphere #1?"></textarea>
+						<div *ngIf="isSubmitting && formDataReflection['sphere_1_answer'].errors" class="err">
+							<small [hidden]="!formDataReflection['sphere_1_answer'].errors['required']">*This field is
+								required.</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<!-- <label>What about Sphere #2?</label> -->
+						<textarea class="form-control" cols="30" rows="11" formControlName="sphere_2_answer"
+							placeholder="What about Sphere #2?"></textarea>
+						<div *ngIf="isSubmitting && formDataReflection['sphere_2_answer'].errors" class="err">
+							<small [hidden]="!formDataReflection['sphere_2_answer'].errors['required']">*This field is
+								required.</small>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="text-end mt-3">
+			<button class="btn btn-dark xs me-2 px-4 fw-bold" (click)="skip(1)">
+				Back
+			</button>
+			<button class="btn btn-secondary xs me-2 px-4 fw-bold" (click)="skip(3)">
+				Skip
+			</button>
+			<button class="btn btn-success xs me-2 px-4 fw-bold" (click)="next(3)">
+				Next
+				<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+			</button>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="view == 3">
+		<div class="card-container screen-shadow">
+			<form class="form-container" [formGroup]="goalForm">
+				<div class="row">
+					<div class="col-md-6 mb-4">
+						<label>Focus Sphere:</label>
+						<select class="form-control" formControlName="sphere" (change)="onSphereChange()">
+							<ng-container *ngFor="let item of sphereList">
+								<ng-container *ngIf="item.id === sphere_1Value">
+									<option [value]="item.id">
+										{{ item.name }}
+									</option>
+								</ng-container>
+							</ng-container>
+						</select>
+						<div *ngIf="isSubmitting1 && formDataGoal['sphere'].errors" class="err">
+							<small [hidden]="!formDataGoal['sphere'].errors['required']">
+								*Please Select a sphere.
+							</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<label>Completion Date:</label>
+						<div class="completion-date">
+							<input class="form-control" placeholder="yyyy-mm-dd" (click)="cd.toggle()"
+								formControlName="completion_date" ngbDatepicker #cd="ngbDatepicker" />
+							<div (click)="cd.toggle()" class="btn-cal pointer">
+								<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+							</div>
+						</div>
+						<div *ngIf="isSubmitting1 && formDataGoal['completion_date'].errors" class="err">
+							<small [hidden]="!formDataGoal['completion_date'].errors['required']">*Please
+								select a date.</small>
+						</div>
+					</div>
+					<div class="col-md-12 mb-4">
+						<label>Define your goal and why is that goal important to you?</label>
+						<textarea class="form-control" cols="30" rows="4" formControlName="define_goal"
+							placeholder="What do you want to accomplish in this sphere? Elaborate on your main objective from the reflection"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['define_goal'].errors" class="err">
+							<small [hidden]="!formDataGoal['define_goal'].errors['required']">
+								*This field is required.
+							</small>
+						</div>
+					</div>
+					<!-- <div class="col-md-12 mb-4">
+						<label>This is Your “Why”</label>
+						<textarea class="form-control" cols="30" rows="4" formControlName="why"
+							placeholder="Why is this goal important to you? How does achieving this goal benefit you?"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['why'].errors" class="err">
+							<small [hidden]="!formDataGoal['why'].errors['required']">*This field is required.</small>
+						</div>
+					</div> -->
+					<div class="col-md-12 mb-4">
+						<label>Your Action Map</label>
+						<p class="mb-0">
+							What action steps do you need to take to accomplish the goal? What new habits do you need to
+							create?
+							Use this space to develop your action plan
+						</p>
+					</div>
+					<ng-container *ngIf="formDataGoal['sphere'].value">
+						<div class="col-md-6 mb-4">
+							<label class="mb-3">Action step</label>
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_1">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+								<div *ngIf="isSubmitting1 && formDataGoal['action_step_1'].errors" class="err">
+									<small [hidden]="!formDataGoal['action_step_1'].errors['required']">*Please select
+										one action.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_2">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_3">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_4">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_6">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+						</div>
+
+
+
+
+
+
+						<div class="col-md-3 mb-4">
+							<label class="mb-3">Time Formate</label>
+							<div class="mb-2">
+
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-3 mb-4">
+							<label class="mb-3">Target Completion Date</label>
+							<div class="mb-2">
+
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_1" ngbDatepicker #d1="ngbDatepicker" />
+									<div (click)="d1.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_1'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_1'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_2" ngbDatepicker #d2="ngbDatepicker" />
+									<div (click)="d2.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_2'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_2'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_3" ngbDatepicker #d3="ngbDatepicker" />
+									<div (click)="d3.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_3'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_3'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_4" ngbDatepicker #d4="ngbDatepicker" />
+									<div (click)="d4.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_4'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_4'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_5" ngbDatepicker #d5="ngbDatepicker" />
+									<div (click)="d5.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_5'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_5'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_6" ngbDatepicker #d6="ngbDatepicker" />
+									<div (click)="d6.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_6'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_6'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+				</div>
+				<div class="text-end mt-3">
+					<button class="btn btn-dark xs me-2 px-4 fw-bold" (click)="skip(2)">
+						Back
+					</button>
+					<button class="btn btn-success xs me-2 px-4 fw-bold" (click)="next(4)">
+						Next
+						<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7"
+							class="ms-1 arrow">
+					</button>
+				</div>
+			</form>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="view == 4">
+		<div class="card-container screen-shadow">
+			<form class="form-container" [formGroup]="goalForm">
+				<div class="row">
+					<div class="col-md-6 mb-4">
+						<label>Focus Sphere:</label>
+						<select class="form-control" formControlName="sphere" (change)="onSphereChange()">
+							<ng-container *ngFor="let item of sphereList">
+								<ng-container *ngIf="item.id === sphere_2Value">
+									<option [value]="item.id">
+										{{ item.name }}
+									</option>
+								</ng-container>
+							</ng-container>
+						</select>
+						<div *ngIf="isSubmitting1 && formDataGoal['sphere'].errors" class="err">
+							<small [hidden]="!formDataGoal['sphere'].errors['required']">
+								*Please Select a sphere.
+							</small>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<label>Completion Date:</label>
+						<div class="completion-date">
+							<input class="form-control" placeholder="yyyy-mm-dd" (click)="cd.toggle()"
+								formControlName="completion_date" ngbDatepicker #cd="ngbDatepicker" />
+							<div (click)="cd.toggle()" class="btn-cal pointer">
+								<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+							</div>
+						</div>
+						<div *ngIf="isSubmitting1 && formDataGoal['completion_date'].errors" class="err">
+							<small [hidden]="!formDataGoal['completion_date'].errors['required']">*Please
+								select a date.</small>
+						</div>
+					</div>
+					<div class="col-md-12 mb-4">
+						<label>Define your goal and why is that goal important to you?</label>
+						<textarea class="form-control" cols="30" rows="4" formControlName="define_goal"
+							placeholder="What do you want to accomplish in this sphere? Elaborate on your main objective from the reflection"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['define_goal'].errors" class="err">
+							<small [hidden]="!formDataGoal['define_goal'].errors['required']">
+								*This field is required.
+							</small>
+						</div>
+					</div>
+					<!-- <div class="col-md-12 mb-4">
+						<label>This is Your “Why”</label>
+						<textarea class="form-control" cols="30" rows="4" formControlName="why"
+							placeholder="Why is this goal important to you? How does achieving this goal benefit you?"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['why'].errors" class="err">
+							<small [hidden]="!formDataGoal['why'].errors['required']">*This field is required.</small>
+						</div>
+					</div> -->
+					<div class="col-md-12 mb-4">
+						<label>Your Action Map</label>
+						<p class="mb-0">
+							What action steps do you need to take to accomplish the goal? What new habits do you need to
+							create?
+							Use this space to develop your action plan
+						</p>
+					</div>
+					<ng-container *ngIf="formDataGoal['sphere'].value">
+						<div class="col-md-6 mb-4">
+							<label class="mb-3">Action step</label>
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_1">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+								<div *ngIf="isSubmitting1 && formDataGoal['action_step_1'].errors" class="err">
+									<small [hidden]="!formDataGoal['action_step_1'].errors['required']">*Please select
+										one action.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_2">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_3">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_4">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_6">
+									<option value="">Select</option>
+									<option [value]="item" *ngFor="let item of selectedSphereActionStep">
+										{{ item }}
+									</option>
+								</select>
+							</div>
+						</div>
+
+
+
+						<div class="col-md-3 mb-4">
+							<label class="mb-3">Time Formate</label>
+							<div class="mb-2">
+
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+
+							<div class="mb-2">
+								<select class="form-control" formControlName="action_step_5">
+									<option value="">Select</option>
+									<option value="Hours">
+										Hours
+									</option>
+									<option value="Minute">
+										Minute
+									</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="col-md-3 mb-4">
+							<label class="mb-3">Target Completion Date</label>
+							<div class="mb-2">
+
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_1" ngbDatepicker #d1="ngbDatepicker" />
+									<div (click)="d1.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_1'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_1'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_2" ngbDatepicker #d2="ngbDatepicker" />
+									<div (click)="d2.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_2'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_2'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_3" ngbDatepicker #d3="ngbDatepicker" />
+									<div (click)="d3.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_3'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_3'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_4" ngbDatepicker #d4="ngbDatepicker" />
+									<div (click)="d4.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_4'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_4'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_5" ngbDatepicker #d5="ngbDatepicker" />
+									<div (click)="d5.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_5'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_5'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<div class="input-group">
+									<input class="form-control" placeholder="yyyy-mm-dd"
+										formControlName="completion_date_6" ngbDatepicker #d6="ngbDatepicker" />
+									<div (click)="d6.toggle()" class="btn-cal pointer">
+										<img src="assets/img/calender.png" alt="calender" width="17" height="18">
+									</div>
+								</div>
+								<div *ngIf="isSubmitting1 && formDataGoal['completion_date_6'].errors" class="err">
+									<small [hidden]="!formDataGoal['completion_date_6'].errors['required']">*Please
+										select a date.</small>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+				</div>
+				<div class="text-end mt-3">
+					<button class="btn btn-dark xs me-2 px-4 fw-bold" (click)="skip(3)">
+						Back
+					</button>
+					<button class="btn btn-success xs me-2 px-4 fw-bold" (click)="next(5)">
+						Next
+						<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7"
+							class="ms-1 arrow">
+					</button>
+				</div>
+			</form>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="view == 5">
+		<div class="card-container screen-shadow">
+			<form class="form-container" [formGroup]="goalForm">
+				<div class="row">
+					<div class="col-md-12 mb-4">
+						<label>Your Potential Barriers</label>
+						<textarea cols="30" rows="4" class="form-control" formControlName="potential_barriers"
+							placeholder="What might be a potential barrier for you in achieving your goals? What habits might slow you down? Examples: overthinking, perfectionism, procrastination, distractions"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['potential_barriers'].errors" class="err">
+							<small [hidden]="!formDataGoal['potential_barriers'].errors['required']">
+								*This field is required.
+							</small>
+						</div>
+					</div>
+					<div class="col-md-12 mb-4">
+						<div class="support text-center py-4 px-2">
+							<img src="assets/img/support-1.png" alt="The goal is growth, not perfection">
+							<p class="mb-0">The goal is growth, not perfection</p>
+						</div>
+					</div>
+					<div class="col-md-12 mb-4">
+						<label>Support and Resources Needed</label>
+						<textarea cols="30" rows="4" class="form-control" formControlName="support_and_resources"
+							placeholder="What skills/information are needed for you to maximize your success? What support/resources are needed to address the barriers you identified above? Examples: more information, access to support, an accountability partner"></textarea>
+						<div *ngIf="isSubmitting1 && formDataGoal['support_and_resources'].errors" class="err">
+							<small [hidden]="!formDataGoal['support_and_resources'].errors['required']">
+								*This field is required.
+							</small>
+						</div>
+					</div>
+
+					<div class="col-md-12 mb-4">
+						<label class="mb-3">
+							What Joy Society offerings can be leveraged to help you achieve your goals?
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Connection Sessions
+							<input type="checkbox" formControlName="connection_sessions">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Networking & connecting with peers
+							<input type="checkbox" formControlName="networking_connecting">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Goal Accountability Checkpoints
+							<input type="checkbox" formControlName="accountablity_checkpoint">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Self-paced learning modules
+							<input type="checkbox" formControlName="self_paced_learning">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Educational webinars
+							<input type="checkbox" formControlName="wducationnal_webinar">
+							<span class="checkmark"></span>
+						</label>
+						<label class="custom-checkbox-container terms mb-3 fw-normal">
+							Join the Goal Getters tribe
+							<input type="checkbox" formControlName="join_tribe">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</div>
+				<div class="text-end mt-3">
+					<button class="btn btn-dark xs me-2 px-4 fw-0" (click)="skip(3)">
+						Back
+					</button>
+					<button class="btn btn-success xs me-2 px-4 fw-bold" (click)="next(6)">
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
+	</ng-container>
+</div>

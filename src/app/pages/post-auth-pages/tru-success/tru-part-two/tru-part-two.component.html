@@ -1,0 +1,46 @@
+<div class="d-flex align-items-baseline gap-2">
+	<div>
+		<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+	</div>
+	<div>
+		<h4 class="mb-0">TRU Success Evaluation</h4>
+		<p class="text-muted f-x-small">Part 2</p>
+	</div>
+</div>
+
+<div>
+	<div class="stepper-wrapper">
+		<div class="stepper-item {{ item.status }}" *ngFor="let item of totalSteps">
+			<div class="step-counter">{{ item.step }}</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-container p-0">
+	<ul>
+		<ng-container *ngFor="let item of questions | slice:sliceStart:sliceEnd">
+			<li class="">
+				<div class="py-3 px-3 question">{{ item.question }}</div>
+				<div class="answer py-3 px-4">
+					<span class="scale f-x-small">Low</span>
+					<span class="score pointer f-x-small" *ngFor="let i of scores"  (click)="answer(item, i)"
+					[ngClass]="{'active': item?.answer == i}">
+						{{ i }}
+					</span>
+					<span class="scale f-x-small">High</span>
+				</div>
+			</li>
+			<hr class="my-0">
+		</ng-container>
+	</ul>
+</div>
+
+<div class="text-end" *ngIf="questions?.length">
+	<button class="btn btn-secondary-outline xs me-2 px-3 mt-3" (click)="back()" *ngIf="currentStep > 1">
+		Previous
+	</button>
+	<button class="btn btn-success xs me-2 px-3 mt-3" (click)="pageChange()">
+		Next
+		<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+	</button>
+</div>

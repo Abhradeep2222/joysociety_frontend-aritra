@@ -1,0 +1,283 @@
+.form-control {
+    border-color: map-get(map-get($palette, gray), base);
+    color: map-get(map-get($palette, black), light-2) !important;
+    font-size: map-get($fontSize, small);
+
+    &.invalid {
+        border-color: map-get(map-get($palette, red), base);
+        &:focus {
+            border-color: map-get(map-get($palette, red), base);
+            box-shadow: 0 0 0 0.25rem #d9121221;
+        }
+    }
+
+    &:focus {
+        border-color: #80f5eb;
+        box-shadow: 0 0 0 0.25rem rgb(128 245 235 / 28%);
+    }
+
+    &:disabled {
+        background-color: map-get(map-get($palette, gray), smoke);
+        cursor: not-allowed;
+
+        &.pointer {
+            cursor: pointer;
+        }
+    }
+
+    &.grayed {
+        background-color: map-get(map-get($palette, gray), smoke-1);
+        border: 0;
+    }
+}
+
+.form-disabled {
+    padding: 0.375rem 0;
+    background-color: transparent;
+    border: 0;
+    color: map-get(map-get($palette, black), light-2) !important;
+    font-size: map-get($fontSize, small);
+}
+
+input:read-only {
+    background-color: map-get(map-get($palette, gray), smoke);
+    cursor: not-allowed;
+
+    &:focus {
+        border-color: map-get(map-get($palette, gray), base);
+        box-shadow: none;
+        background-color: map-get(map-get($palette, gray), smoke);
+    }
+}
+
+.err {
+    color: map-get(map-get($palette, red), base);
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 5px;
+    border: 1px solid #696969;
+    border-radius: 2px;
+    margin-right: 2rem;
+    padding: 1rem;
+    padding-right: 2rem;
+}
+
+// Custom checkbox
+.custom-checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    // font-size: 22px;
+    font-weight: normal;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked ~ .checkmark {
+            background-color: map-get(map-get($palette, green), dark);
+
+            &:after {
+                display: block;
+            }
+        }
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        border-radius: 5px;
+        border: 1px solid map-get(map-get($palette, gray), base);
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 4px;
+            top: 1px;
+            width: 7px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+.form-label {
+    font-size: map-get($fontSize, small);
+}
+
+.plus {
+    padding: 0px 6px;
+    background: #eeeff0;
+    border-radius: 4px;
+    color: map-get(map-get($palette, black), light-2);
+
+    &.minus {
+        padding: 0.5px 8px;
+    }
+}
+
+// toggle switch
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .slider {
+            background-color: #23d88b;
+
+            &:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+        }
+
+        &:focus + .slider {
+            box-shadow: 0 0 1px #23d88b;
+        }
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ebeef2;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+
+        &:before {
+            position: absolute;
+            content: "";
+            height: 17px;
+            width: 17px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+        }
+
+        &.round {
+            border-radius: 34px;
+
+            &:before {
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+// Custom Radio
+.custom-radio-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    // margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+
+        &:checked ~ .checkmark {
+            background-color: #23d88b;
+            &:after {
+                display: block;
+            }
+        }
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 1;
+        left: 0;
+        height: 16px;
+        width: 16px;
+        background-color: #e6eaf0;
+        border-radius: 50%;
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 5px;
+            left: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: white;
+        }
+    }
+
+    &:hover {
+        input ~ .checkmark {
+            background-color: #ccc;
+        }
+    }
+}
+
+// ngx-chips
+.form-control {
+    tag {
+        border-radius: 6px !important;
+        background: #f4f6fa !important;
+        color: #6e7682 !important;
+        line-height: 32px !important;
+
+        .tag__text {
+            font-size: 14px !important;
+        }
+    }
+    .ng2-tag-input {
+        border-bottom: 0 !important;
+        padding: 0 !important;
+
+        .ng2-tags-container {
+            font-size: 14px !important;
+        }
+
+        .ng2-tag-input__text-input {
+            color: #6e7682;
+        }
+
+        &.ng2-tag-input--focused {
+            border-bottom: 0 !important;
+        }
+    }
+}

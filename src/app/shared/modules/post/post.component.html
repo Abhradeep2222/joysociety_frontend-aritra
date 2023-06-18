@@ -1,0 +1,38 @@
+<div class="post-container d-flex gap-2">
+	<div class="dp">
+		<img *ngIf="profileDetail?.profile_pic" [src]="profileDetail?.profile_pic" alt="profile pic" class="img-round"
+			width="32" height="32">
+		<img *ngIf="!profileDetail?.profile_pic" src="assets/img/avatar-placeholder.png" alt="profile pic"
+			class="img-round" width="32" height="32">
+	</div>
+	<div class="post-input">
+		<div class="form-control pointer" (click)="openPostPopup()">Share what's on your mind…</div>
+	</div>
+</div>
+<hr>
+<div class="post-option-list">
+	<!-- <div class="post-option pointer">
+		<img src="assets/img/img.png" alt="Upload image" width="15" height="15">
+		Image
+	</div>
+	<div class="post-option pointer">
+		<img src="assets/img/video.png" alt="Upload video" width="15" height="15">
+		Video
+	</div> -->
+	<div class="post-option pointer" (click)="openPollPopup()">
+		<img src="assets/img/activity.png" alt="Activity/Poll" width="15" height="15">
+		Activity / Poll
+	</div>
+	<div class="post-option pointer" onclick="window.location.href='https://us06web.zoom.us/s/82578418996'">
+		<img src="assets/img/golive.png" alt="Go Live" width="15" height="15">
+		Go Live
+	</div>
+	<!-- <div class="post-option pointer">
+		<img src="assets/img/Icon-feather-calendar.png" alt="upload video" width="15" height="15">
+		Schedule Post
+	</div>
+	<div class="post-option pointer">
+		<img src="assets/img/bookmark.png" alt="upload video" width="15" height="15">
+		Save as draft
+	</div> -->
+</div>

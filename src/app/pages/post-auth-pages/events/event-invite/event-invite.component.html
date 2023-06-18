@@ -1,0 +1,42 @@
+<div class="p-3">
+	<div class="d-flex justify-content-between align-items-center">
+		<h4 class="mb-0">Invite Member</h4>
+		<button class="btn btn-success xs fw-bold" (click)="sendInvite()" *ngIf="invite?.length">
+			+ Invite
+		</button>
+	</div>
+
+	<div>
+		<div class="text-muted loading-container" *ngIf="!memberList.length && isLoading">Loading...</div>
+		<div class="text-muted loading-container" *ngIf="!memberList.length && !isLoading">No Data Found!</div>
+		<ng-container *ngIf="memberList.length && !isLoading">
+			<div class="row mt-3">
+				<div class="col-md-12 col-p-half" *ngFor="let item of memberList">
+					<div class="card mb-3 pointer" (click)="addInvites(item.user_id)" [ngClass]="{'added': invite.includes(item.user_id)}">
+						<div class="row py-3 g-0">
+							<div class="col-md-2 p-0">
+								<div class="card-avatar">
+									<img *ngIf="item?.profile_pic" [src]="item?.profile_pic" class="img-fluid round sm" alt="profile pic">
+									<img *ngIf="!item?.profile_pic" src="assets/img/avatar-placeholder.png" class="img-fluid round sm" alt="profile pic">
+								</div>
+							</div>
+							<div class="col-md-10 p-0">
+								<div class="card-body p-0">
+									<h5 class="card-title mb-0 text-capitalize">{{ item?.full_name }}</h5>
+									<p class="card-text mb-0">
+										<small class="text-muted">
+											<span class="light-green">{{ item.role_name == 'Admin' ? 'Host' : item.role_name }}</span>
+										</small>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ngb-pagination [collectionSize]="collectionSize" [(page)]="payload.page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+				[boundaryLinks]="true" size="sm" class="d-flex justify-content-end" (pageChange)="pageChange($event)">
+			</ngb-pagination>
+		</ng-container>
+	</div>
+</div>

@@ -1,0 +1,96 @@
+// font family
+$font-family-sans-serif: "Montserrat", "Helvetica", Arial, sans-serif;
+$sans-serif-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+$poppin-family: 'Poppins', sans-serif;
+$lobster-family: "Lobster";
+$lobster-cursive: "Lobster", cursive;
+
+// border
+$border-thin: 1px solid !default;
+$border-thick: 2px solid !default;
+
+// color palette
+$palette: (
+	white: (
+		base: #ffffff,
+	),
+	black: (
+		light-2: #6e7682,
+ 		light-1: #191919,
+		light: #444444,
+		base: #000000,
+	),
+	red: (
+		dark: #b30b00,
+		base: #d91212,
+	),
+	yellow: (
+		light-1: #ffc5283b,
+		light-2: #f9d45f,
+		base: #ffc528,
+	),
+	gray: (
+		light-1: #ebeef2,
+		smoke-1: #f4f6fa,
+		smoke: #f4f7fc,
+		base: #696969,
+		dark-1: #707070,
+		dark-2: #4d5461,
+	),
+	green: (
+		light-2: #2bb673,
+		light-1: #8dc73f,
+		base: #1db11d,
+		dark: #0b675f
+	),
+	purple: (
+		base: #721c5a,
+	),
+	blue: (
+		zoom: #2f77fb,
+		base: #3b88c9,
+		dark: #1f77d0,
+	),
+	orange: (
+		base: #ffa534,
+	),
+	pink: (
+		base: #dc4867,
+	)
+);
+
+$fontSize: (
+	mini: 0.625rem,
+	// 10px
+	x-small: 0.75rem,
+	// 12px
+	small: 0.875rem,
+	// 14px
+	regular: 1rem,
+	// 16px
+	medium: 1.125rem,
+	// 18px
+	large: 1.25rem,
+	// 20px
+	x-large: 1.375rem,
+	// 22px
+	xx-large: 1.5rem,
+	// 24px
+	xxx-large: 1.625rem,
+	// 26px
+	huge: 1.75rem,
+	// 28px
+	x-huge: 1.875rem,
+	// 30px
+	xx-huge: 2rem,
+	// 32px
+	mighty: 2.125rem,
+	// 34px
+	x-mighty: 2.25rem,
+	// 36px
+);
+
+// $gradient: (
+// 	primary: linear-gradient(202deg, #d5aaff 0%, #e283c4 33%, #ec407b 60%, #dd5070 100%),
+// 	secondary: linear-gradient(257deg, #00c4ff 0%, #d5aaff 33%, #dd3448 66%, #ffe200 100%),
+// );

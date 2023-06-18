@@ -1,0 +1,21 @@
+.report-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .btn {
+        font-size: 16px;
+    }
+}
+
+.question-list {
+    list-style-type: none;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.my-b{
+    height: 50px;
+}

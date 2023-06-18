@@ -1,0 +1,28 @@
+.event-cover-img {
+    background-color: #ebeef2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 0;
+}
+
+.benefits {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.plan-preview {
+    padding: 10px 15px;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 3px 6px 0 #e5e8ed;
+    border-radius: 6px;
+}
+
+.plan-warning {
+    color: #ff6969;
+    border-radius: 6px;
+    border: 1px solid #ff6969;
+}

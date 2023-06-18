@@ -1,0 +1,60 @@
+<div class="card-container pb-1">
+	<div class="card-container-header">
+		<h6 class="mb-0">Subscriptions</h6>
+		<div class="filters">
+			<app-search (listener)="filter('search', $event)"></app-search>
+		</div>
+	</div>
+
+	<ng-container *ngIf="plans.length && !isLoading">
+		<div class="row mt-5">
+			<div class="col-xl-4 col-md-6 mb-4" *ngFor="let item of plans">
+				<div class="card plans bs-1 border-bottom-0 h-100">
+					<div class="card-header py-3">
+						<h5 class="mb-0">{{ item.name }}</h5>
+						<p class="mb-0">{{ item.sales_pitch }}</p>
+					</div>
+					<div class="card-body">
+						<div class="price-wrapper text-center mb-3">
+							<span class="price fw-bold">${{ item.offer_price }}</span>/
+							<ng-container *ngIf="item.payment_type == 'CUSTOM'">
+								{{ item.days }} days
+							</ng-container>
+							<ng-container *ngIf="item.payment_type !== 'CUSTOM'">
+								<ng-container *ngIf="item.payment_type == 'WEEKLY'">Weekly</ng-container>
+								<ng-container *ngIf="item.payment_type == 'MONTHLY'">Monthly</ng-container>
+								<ng-container *ngIf="item.payment_type == 'QUARTERLY'">Quarterly</ng-container>
+								<ng-container *ngIf="item.payment_type == 'HALF_YEARLY'">Half Yearly</ng-container>
+								<ng-container *ngIf="item.payment_type == 'YEARLY'">Yearly</ng-container>
+							</ng-container>
+						</div>
+						<button class="btn btn-success fw-bold w-100 mb-3" (click)="buyPlan(item)">
+							Buy Now
+						</button>
+						<div *ngIf="item.internal_note">
+							<div><b>Internal Notes:</b></div>
+							<p class="mb-0">{{ item.internal_note }}</p>
+							<hr class="my-2">
+						</div>
+						<div>
+							<div><b>Benefits:</b></div>
+							<ul class="ps-3 mb-0">
+								<li *ngFor="let benefit of item?.benefits">{{ benefit }}</li>
+							</ul>
+						</div>
+						<hr class="my-2">
+						<div>
+							<div><b>Description:</b></div>
+							<p class="mb-0">description</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ngb-pagination [collectionSize]="collectionSize" [(page)]="payload.page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+			[boundaryLinks]="true" size="sm" class="d-flex justify-content-end" (pageChange)="pageChange($event)">
+		</ngb-pagination>
+	</ng-container>
+	<div class="text-muted loading-container" *ngIf="!plans.length && isLoading">Loading...</div>
+	<div class="text-muted loading-container" *ngIf="!plans.length && !isLoading">No Data Found!</div>
+</div>

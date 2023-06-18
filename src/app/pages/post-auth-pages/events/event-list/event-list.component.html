@@ -1,0 +1,106 @@
+<div class="card-container">
+	<div class="card-container-header">
+		<h6 class="mb-0">Events</h6>
+		<div class="filters">
+			<button ngbDropdown placement="bottom-start" display="dynamic"
+				class="btn btn-nude d-flex align-items-center">
+				<span class="context-menu" ngbDropdownToggle id="event-type-dd">
+					{{ eventTypes[payload.event_type].label }}
+				</span>
+				<ul ngbDropdownMenu aria-labelledby="event-type-dd" class="custom-dd-menu small">
+					<li ngbDropdownItem class="pointer" *ngFor="let item of eventTypes"
+						(click)="filter('event_type', item.id)">
+						{{ item.label }}
+					</li>
+				</ul>
+			</button>
+			<app-search (listener)="filter('search', $event)"></app-search>
+			<a [routerLink]="['/' + routes.events, 'create']" class="btn btn-success fw-bold f-x-small">
+				+ Create Event
+			</a>
+		</div>
+	</div>
+
+	<ng-container *ngIf="events.length && !isLoading">
+		<div class="row mt-5">
+			<div class="col-xl-6 mb-4" *ngFor="let item of events">
+				<div class="card bs-1 border-bottom-0">
+					<span ngbDropdown placement="bottom-end" display="dynamic" class="action-items">
+						<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+							<img src="assets/img/dots.png" class="dots" alt="more" width="12" height="3">
+						</a>
+						<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu small">
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('duplicate', item)">Duplicate
+									Event</a>
+							</li>
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('view', item)">View Event</a>
+							</li>
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('edit', item)">Edit Event</a>
+							</li>
+							<li ngbDropdownItem class="pointer p-0">
+								<a class="d-block" href="javascript:;" (click)="action('delete', item)">Delete Event</a>
+							</li>
+						</ul>
+					</span>
+					<div class="card-img text-center dummy-img-bg">
+						<img [src]="item.event_image ? item.event_image : 'assets/img/event-placeholder.png'"
+							class="img-fluid" alt="event" *ngIf="item.event_image && item.event_image != 'Some URL'">
+						<img *ngIf="item.event_image == 'Some URL'" src="assets/img/event-placeholder.png"
+							class="img-fluid" alt="event">
+					</div>
+					<hr class="m-0">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-center">
+							<span class="f-x-small event-schedule">
+								<ng-container *ngIf="item?.isToday">TODAY • {{ item.start_datetime | date:'hh:mm a'
+									}}</ng-container>
+								<ng-container *ngIf="!item?.isToday">
+									{{ item.start_datetime | date:'MMM dd, yyyy' }} • {{ item.start_datetime |
+									date:'hh:mm a' }}
+								</ng-container>
+								<span class="text-muted" *ngIf="item.repeat_event"> • Repeat Event</span>
+							</span>
+							<button class="btn btn-success fw-bold f-x-small" (click)="joinEvent(item)">
+								Join Now
+							</button>
+						</div>
+						<h5 class="mb-0">{{ item.title }}</h5>
+						<p class="text-muted f-x-small mb-0" *ngIf="item.event_type === 'ONLINE'">
+							<img src="assets/img/zoom.png" alt="zoom meeting" width="21" style="margin-left: -5px;">
+							Zoom Meeting
+						</p>
+						<div class="d-flex justify-content-between align-items-center f-x-small gap-2">
+							<div class="instructors d-flex align-items-center gap-2">
+								<!-- <div class="instructors-img rel">
+									<img src="assets/img/invite-content.png" alt="member profile pic" width="30" height="30" class="img-round">
+									<img src="assets/img/avatar-placeholder.png" alt="member profile pic" width="30" height="30" class="img-round">
+									<img src="assets/img/avatar.png" alt="member profile pic" width="30" height="30" class="img-round">
+								</div> -->
+								<div class="text-muted">{{ item.going }} members are going</div>
+							</div>
+							<div ngbDropdown placement="bottom-start" display="dynamic">
+								<img src="assets/img/share-circle.png" alt="share" class="pointer content-menu"
+									width="50" height="50" ngbDropdownToggle id="share-dd">
+								<ul ngbDropdownMenu aria-labelledby="share-dd" class="custom-dd-menu small">
+									<li ngbDropdownItem class="pointer">
+										<img src="assets/img/copy-circle.png" alt="copy link" width="40" height="40">
+										Copy Link
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ngb-pagination [collectionSize]="collectionSize" [(page)]="payload.page" [maxSize]="5" [rotate]="true"
+			[ellipses]="false" [boundaryLinks]="true" size="sm" class="d-flex justify-content-end"
+			(pageChange)="pageChange($event)">
+		</ngb-pagination>
+	</ng-container>
+	<div class="text-muted loading-container" *ngIf="!events.length && isLoading">Loading...</div>
+	<div class="text-muted loading-container" *ngIf="!events.length && !isLoading">No Data Found!</div>
+</div>

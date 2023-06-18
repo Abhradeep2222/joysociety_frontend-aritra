@@ -1,0 +1,30 @@
+.post-container {
+    align-items: baseline;
+
+    .post-input {
+        flex: auto;
+        div.form-control, input {
+
+            background-color: #f4f6fa;
+            border: 0;
+            border-radius: 8px;
+            margin-right: 45px;
+            padding: 0.5rem 0.75rem;
+        }
+    }
+}
+
+.post-option-list {
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+
+    .post-option {
+        display: flex;
+        gap: 4px;
+        color: #6e7682;
+        font-size: 12px;
+        flex: 50%;
+        justify-content: center;
+    }
+}

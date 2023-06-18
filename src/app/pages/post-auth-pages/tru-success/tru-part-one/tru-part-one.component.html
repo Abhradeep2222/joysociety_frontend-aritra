@@ -1,0 +1,39 @@
+<div class="d-flex align-items-baseline gap-2">
+	<div>
+		<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+	</div>
+	<div>
+		<h4 class="mb-0">TRU Success Evaluation</h4>
+		<p class="text-muted f-x-small">Part 1</p>
+	</div>
+</div>
+
+<p class="text-muted f-x-small">
+	The Joy Society Success Evaluation is quick and easy to complete. Each Success Sphere has a maximum score of
+	30.
+</p>
+<div class="card-container p-0">
+	<ul>
+		<ng-container *ngFor="let item of questions">
+			<li class="">
+				<div class="py-3 px-3 question">{{ item.question }}</div>
+				<div class="answer py-3 px-4">
+					<span class="scale f-x-small">Low</span>
+					<span class="score pointer f-x-small" *ngFor="let i of scores" (click)="answer(item, i)" 
+					[ngClass]="{'active': item?.answer == i}">
+						{{ i }}
+					</span>
+					<span class="scale f-x-small">High</span>
+				</div>
+			</li>
+			<hr class="my-0">
+		</ng-container>
+	</ul>
+</div>
+
+<div class="text-end" *ngIf="(answerList?.length && questions?.length && answerList?.length == questions?.length) || isSubmitAvailable">
+	<button class="btn btn-success xs me-2 px-3 mt-3" (click)="getReport()">
+		Next
+		<img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+	</button>
+</div>

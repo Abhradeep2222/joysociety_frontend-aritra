@@ -1,0 +1,148 @@
+<div class="card-container p-0">
+	<div class="profile-images">
+		<div class="profile-images">
+			<div class="cover-pic">
+				<img src="assets/img/buildings.jpg" alt="cover photo" class="img-fluid">
+			</div>
+			<div class="profile-pic w-100">
+				<div class="">
+					<img *ngIf="!memberDetail?.profile_pic" class="img-fluid dp" src="assets/img/avatar-placeholder.png" alt="profile photo">
+					<img *ngIf="memberDetail?.profile_pic" class="img-fluid dp" [src]="memberDetail?.profile_pic" alt="profile photo">
+				</div>
+				<div class="profile-info">
+					<div class="d-flex align-items-center justify-content-between">
+						<div>
+							<h3 class="name mb-0">{{ memberDetail?.full_name }} 
+								<span class="role ms-1">
+									<ng-container *ngIf="memberDetail?.role == 1">Host</ng-container>
+									<ng-container *ngIf="memberDetail?.role == 2">Moderator</ng-container>
+									<ng-container *ngIf="memberDetail?.role == 3">Member</ng-container>
+								</span></h3>
+							<p class="text-muted mb-0 last-active">Last active 3d ago</p>
+						</div>
+						<div class="more-action">
+							<div ngbDropdown placement="bottom-end" display="dynamic" class="action-items">
+								<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+									<img src="assets/img/dots.png" class="dots" alt="more" width="12" height="3">
+								</a>
+								<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu small">
+									<li ngbDropdownItem class="pointer p-0">
+										<a class="d-block" href="javascript:;">Block</a>
+									</li>
+									<li ngbDropdownItem class="pointer p-0">
+										<a class="d-block" href="javascript:;">Report</a>
+									</li>
+									<li ngbDropdownItem class="pointer p-0">
+										<a class="d-block" href="javascript:;">Remove from Network</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="text-muted count-info">
+						<ul>
+							<li>10 Posts</li>
+							<li>6 Followers</li>
+							<li>0 Following</li>
+							<li>7 Workshops</li>
+							<li>1 Tribes</li>
+							<li>7 Topics</li>
+							<li>8 Events</li>
+						</ul>
+						<div class="d-flex gap-1">
+							<button class="btn btn-nude text-green xs">Activity</button>
+							<button class="btn btn-nude text-green xs">Follow</button>
+							<button class="btn btn-nude text-green xs">Chat</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row mt-3">
+	<div class="col-lg-4">
+		<div class="card-container py-4">
+			<h4>About Me</h4>
+			<p class="text-muted mb-0">
+				{{ memberDetail?.about ? memberDetail?.about : memberDetail?.mini_bio }}
+			</p>
+		</div>
+	</div>
+	<div class="col-lg-8">
+		<div class="card-container py-3">
+			<h5>Workshops</h5>
+			<div>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">GETTING STARTED: New</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">How To Finally Escape</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">Diet Culture</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">The Unintended Conse</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">Let's Talk About "The Apps"</a>
+			</div>
+		</div>
+		<div class="card-container mt-3 py-3">
+			<h5>Tribes</h5>
+			<div>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">GETTING STARTED: New</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">How To Finally Escape</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">Diet Culture</a>
+			</div>
+		</div>
+		<div class="card-container mt-3 py-3">
+			<h5>Topics</h5>
+			<div>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">GETTING STARTED: New</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">How To Finally Escape</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">Diet Culture</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">The Unintended Conse</a>
+				<a href="javascript:;" class="btn btn-nude me-2 mb-2 tag">Let's Talk About "The Apps"</a>
+			</div>
+		</div>
+		<div class="card-container events mt-3 py-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h5>Events</h5>
+				<button class="btn btn-nude border-0 xs">View All</button>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="card mb-3">
+						<div class="row p-2 g-0">
+							<div class="col-xl-3">
+								<div class="card-avatar no-img calender-event text-center d-block">
+									<div>SEP</div>
+									<div class="date"><strong>02</strong></div>
+								</div>
+							</div>
+							<div class="col-xl-9">
+								<div class="card-body py-0 px-2">
+									<h5 class="card-title mb-0 text-capitalize evt-title">Coaching Session - General</h5>
+									<p class="card-text mb-0"><small class="text-muted">Fri, Sep 9, 3:30am</small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="card mb-3">
+						<div class="row p-2 g-0">
+							<div class="col-xl-3">
+								<div class="card-avatar no-img calender-event text-center d-block">
+									<div>SEP</div>
+									<div class="date"><strong>02</strong></div>
+								</div>
+							</div>
+							<div class="col-xl-9">
+								<div class="card-body py-0 px-2">
+									<h5 class="card-title mb-0 text-capitalize evt-title">Coaching Session - General</h5>
+									<p class="card-text mb-0"><small class="text-muted">Fri, Sep 9, 3:30am</small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

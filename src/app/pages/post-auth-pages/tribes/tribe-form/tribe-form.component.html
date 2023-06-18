@@ -1,0 +1,102 @@
+<form [formGroup]="form">
+	<div class="card-container py-4">
+		<div class="d-flex align-items-center gap-2 mb-4">
+			<div>
+				<img src="assets/img/logo-mini.png" alt="logo" width="30" height="30">
+			</div>
+			<div>
+				<h4 class="mb-0">{{ !id ? 'Create' : 'Edit' }} Tribe</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 form-group mb-3">
+				<input class="d-none" type="file" accept="image/x-png,image/jpeg,image/jpg" (change)="onFileChanged($event)" #fileInput>
+				<div class="event-cover-img pointer" (click)="fileInput.click()" *ngIf="!formData['tribe_url'].value && !croppedFile">
+					<div class="d-flex align-items-center">
+						<img src="assets/img/camera-1.png" alt="camera" width="19" height="15" class="me-2">
+						<span class="fw-bold">Header Image <span class="err">*</span></span>
+					</div>
+					<div class="text-muted f-x-small">(Minimum 600 x 450px)</div>
+				</div>
+				<div class="text-center">
+					<image-cropper class="text-center"
+						[imageChangedEvent]="imageChangedEvent"
+						[maintainAspectRatio]="true"
+						[containWithinAspectRatio]="false"
+						[aspectRatio]="21 / 9"
+						[resizeToWidth]="600"
+						[cropperMinWidth]="1300"
+						[onlyScaleDown]="true"
+						[roundCropper]="false"
+						[canvasRotation]="0"
+						[transform]="{}"
+						[alignImage]="'left'"
+						[style.display]="showCropper ? null : 'none'"
+						format="png"
+						(imageCropped)="imageCropped($event)"
+						(imageLoaded)="imageLoaded()"
+						(cropperReady)="cropperReady($event)">
+					</image-cropper>
+					<img *ngIf="formData['tribe_url'].value" [src]="croppedImage" alt="cover" class="img-fluid pointer" (click)="clearUpload(); fileInput.click();">
+				</div>
+				<div *ngIf="isSubmitting && formData['tribe_url'].errors" class="err">
+					<small [hidden]="!formData['tribe_url'].errors['required']">
+						*Please upload an event cover photo.
+					</small>
+				</div>
+				<div *ngIf="formData['tribe_url'].errors" class="err">
+					<small [hidden]="!formData['tribe_url'].errors['dimensionErr']">
+						*Image should be minimum 600 x 450px.
+					</small>
+				</div>
+			</div>
+			<div class="col-md-12 form-group mb-3" *ngIf="showCropper">
+				<div class="text-end">
+					<button class="btn btn-nude fw-bold f-x-small me-2" (click)="clearUpload()">Cancel</button>
+					<button class="btn btn-success fw-bold f-x-small" (click)="upload()">Upload</button>
+				</div>
+			</div>
+			<div class="col-md-12 form-group mb-4">
+				<label class="form-label mb-0">Tribe Title <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="title" placeholder="Tribe Title">
+				<div *ngIf="isSubmitting && formData['title'].errors" class="err">
+					<small [hidden]="!formData['title'].errors['required']">*Tribe title is required.</small>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<label class="form-label mb-0">Tribe Tagline <span class="err">*</span></label>
+				<input type="text" class="form-control" formControlName="tagline" placeholder="Tribe Tagline">
+				<div *ngIf="isSubmitting && formData['tagline'].errors" class="err">
+					<small [hidden]="!formData['tagline'].errors['required']">*Tribe tagline is required.</small>
+				</div>
+			</div>
+			<div class="col-md-6 form-group mb-4">
+				<label class="form-label mb-0">Privacy <span class="err">*</span></label>
+				<select class="form-control" formControlName="privacy">
+					<option value="">Select Privacy</option>
+					<option [value]="item" *ngFor="let item of privacy">{{ item }}</option>
+				</select>
+				<div *ngIf="isSubmitting && formData['privacy'].errors" class="err">
+					<small [hidden]="!formData['privacy'].errors['required']">*Privacy setting is required.</small>
+				</div>
+			</div>
+			<div class="col-md-12 form-group mb-4">
+				<label class="form-label mb-0">Description <span class="err">*</span></label>
+				<textarea class="form-control" formControlName="description" placeholder="Tribe Description" 
+				cols="30" rows="4"></textarea>
+				<div *ngIf="isSubmitting && formData['description'].errors" class="err">
+					<small [hidden]="!formData['description'].errors['required']">*Tribe description is required.</small>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="text-end">
+		<button class="btn btn-secondary xs me-2 px-4 mt-3" *ngIf="id" (click)="getTribeDetail()">
+			Cancel
+		</button>
+		<button class="btn btn-success xs me-2 px-4 mt-3" (click)="submit()">
+			{{ id ? 'Update' : 'Create a tribe' }}
+		</button>
+	</div>
+</form>

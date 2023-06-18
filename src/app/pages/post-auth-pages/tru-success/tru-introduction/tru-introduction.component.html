@@ -1,0 +1,75 @@
+<div class="card-container fetching-400" *ngIf="!view">
+    Fetching Data...
+</div>
+<ng-container *ngIf="view == 1">
+    <div>
+        <h4 class="mb-0">TRU Success Workbook</h4>
+        <p>A guide for reimagining sucess</p>
+    </div>
+    <div class="tru-banner">
+        <img src="assets/img/tru-banner.png" alt="tru success banner" class="img-fluid">
+    </div>
+
+    <div class="card-container tru-info mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <img src="assets/img/tru-int-2.png" alt="" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <h5>Introduction</h5>
+                <p class="text-muted">
+                    Our goal-setting program was designed specifically for professionals, helpers, leaders, and business
+                    owners like you, who identify as successful in a traditional sense, or identify deeply with your
+                    role as a helper, but know something is missing. Title, salary, or number of clients served doesn't
+                    necessarily translate to true happiness and fulfillment. You want more and you need something beyond
+                    the typical workplace goal-setting rhetoric.
+                </p>
+                <p class="text-muted">
+                    Aligned with the Joy Society's definition of success, this workbook and the accompanying TRU Success
+                    Evaluation provide guidance for whole-life assessment and self-reflection using the 8 Spheres of
+                    Success to support you in achieving the personal and professional development you're seeking.
+                </p>
+
+                <div class="text-end">
+                    <button class="btn btn-success xs me-2 px-4 mt-3" (click)="view=2">
+                        Get Started
+                        <img src="assets/img/arrow-right.png" alt="get started" width="12" height="7"
+                            class="ms-1 arrow">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="view == 2">
+    <div class="card-container">
+        <div class="text-center">
+            <img src="assets/img/tru-intro-step-2.png" alt="intro step 2" class="img-fluid mb-2"
+                style="max-width: 20%;">
+            <h4 class="">Here's How to Use It</h4>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-lg-6" *ngFor="let item of stepTwoInfo">
+                <div class="step-2-points">
+                    <div class="logo">
+                        <img [src]="item.logo" [alt]="item.title" width="42" height="42">
+                    </div>
+                    <div>
+                        <h6 class="fw-bold">{{ item.title }}</h6>
+                        <p class="text-muted">{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end">
+            <button class="btn btn-success xs me-2 px-4 mt-3" (click)="startPart1()">
+                Get Started
+                <img src="assets/img/arrow-right.png" alt="get started" width="12" height="7" class="ms-1 arrow">
+            </button>
+        </div>
+    </div>
+</ng-container>

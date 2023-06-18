@@ -1,0 +1,58 @@
+<div class="comments-wrapper">
+	<div class="comment-list" *ngIf="comments.length">
+		<span class="pointer text-muted mb-3 d-inline-block previous-comments" *ngIf="(comments.length > 5) && commentStartIndex != 0" (click)="loadPreviousComments()">
+			View previous comments
+		</span>
+		<ul class="ps-0">
+			<li *ngFor="let item of comments | slice:commentStartIndex:commentEndIndex; let index = index" class="mb-3" id=comment-{{item?.id}}>
+				<ng-container [ngTemplateOutlet]="commentLi" [ngTemplateOutletContext]="{item: item, isReply: true}"></ng-container>
+
+				<div class="reply-container mt-2">
+					<div class="mb-3" *ngFor="let item of item.child">
+						<ng-container [ngTemplateOutlet]="commentLi" [ngTemplateOutletContext]="{item: item, isReply: false, index: index}"></ng-container>
+					</div>
+					<ng-container *ngIf="replyVisibility[item.id]" [ngTemplateOutlet]="commentBox" [ngTemplateOutletContext]="{item: item}"></ng-container>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	<ng-container [ngTemplateOutlet]="commentBox"></ng-container>
+	
+	<ng-template #commentLi let-item='item' let-isReply="isReply" let-index="index">
+		<div class="comment-li">
+			<img [src]="item?.created_by.profile_pic ? item?.created_by.profile_pic : 'assets/img/avatar-placeholder.png'" alt="profile pic" width="28" height="28" class="img-round">
+			<span class="html rel" id=html-{{item.id}}>
+				<b>
+					<ng-container *ngIf="item?.created_by.full_name">{{ item?.created_by.full_name }}</ng-container>
+					<ng-container *ngIf="!item?.created_by.full_name">{{ item?.created_by.first_name + ' ' + item?.created_by.last_name }}</ng-container>
+				</b>
+				<span class="" [innerHTML]="item?.comment"></span>
+				<span class="reply-like pointer" *ngIf="item?.like_count" (click)="showLikes(item)">
+					<img src="assets/img/heart-solid.png" alt="heart" width="10" height="9" class="me-1">
+					<span class="f-x-small text-muted">{{ item?.like_count }}</span>
+				</span>
+			</span>
+			<span ngbDropdown placement="bottom-start" display="dynamic" class="action-items comment-actions">
+				<a href="javascript:;" class="context-menu" ngbDropdownToggle id="comment-delete">
+					<img src="assets/img/dots.png" class="dots" alt="more" width="12" height="3">
+				</a>
+				<ul ngbDropdownMenu aria-labelledby="comment-delete" class="custom-dd-menu small" style="min-width: 150px; max-width: 150px;">
+					<li ngbDropdownItem class="pointer p-0">
+						<a class="d-block" href="javascript:;" (click)="deleteComment(item, isReply, index)">Delete</a>
+					</li>
+				</ul>
+			</span>
+		</div>
+		<div class="comment-chain-action">
+			<span class="text-muted f-x-small pointer me-3" (click)="like(item)" [ngClass]="{'self-like': item?.selfLike}">Like</span>
+			<span class="text-muted f-x-small pointer" (click)="replyVisibility[item.id] = true;" *ngIf="isReply">Reply</span>
+		</div>
+	</ng-template>
+
+	<ng-template #commentBox let-item='item'>
+		<app-chat-input [item]="item" [data]="data" [type]="'comment'" (submitListener)="submitListener($event)" 
+			[placeholder]="item?.id ? 'Write a reply...' : 'Write a comment...'" [textAreaWidth]="'91%'">
+		</app-chat-input>
+	</ng-template>
+</div>

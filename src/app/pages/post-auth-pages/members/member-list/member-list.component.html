@@ -1,0 +1,135 @@
+<div class="card-container">
+	<div class="card-container-header">
+		<h6 class="mb-0">Members</h6>
+		<div class="filters">
+			<app-search (listener)="filter('search', $event)"></app-search>
+			<button ngbDropdown placement="bottom-start" display="dynamic" class="action-items btn btn-nude d-flex align-items-center">
+				<span class="context-menu" ngbDropdownToggle id="role-dd">
+					Showing: <ng-container *ngIf="!payload.role_id">All</ng-container>
+					<ng-container *ngIf="payload.role_id == 1">Admin</ng-container>
+					<ng-container *ngIf="payload.role_id == 2">Moderator</ng-container>
+					<ng-container *ngIf="payload.role_id == 3">Member</ng-container>
+				</span>
+				<ul ngbDropdownMenu aria-labelledby="role-dd" class="custom-dd-menu small">
+					<li ngbDropdownItem class="pointer" (click)="filter('role_id', 0)">
+						All
+					</li>
+					<li ngbDropdownItem class="pointer" *ngFor="let item of roles" (click)="filter('role_id', item.id)">
+						{{ item.name }}
+					</li>
+				</ul>
+			</button>
+			<button ngbDropdown placement="bottom-start" display="dynamic" class="action-items btn btn-nude d-flex align-items-center sort">
+				<span class="context-menu" ngbDropdownToggle id="sort-dd">
+					Sort By: <ng-container *ngFor="let item of memberSortOption">
+						<span *ngIf="payload.ordering == item.id">{{ item.name }}</span>
+					</ng-container>
+				</span>
+				<ul ngbDropdownMenu aria-labelledby="sort-dd" class="custom-dd-menu small">
+					<li ngbDropdownItem class="pointer" *ngFor="let item of memberSortOption" (click)="filter('ordering', item.id)">
+						{{ item.name }}
+					</li>
+				</ul>
+			</button>
+			<button class="btn btn-nude d-flex align-items-center" (click)="gotoInvite()">
+				<img src="assets/img/add-user.png" alt="invite" width="10" height="11" class="me-1">
+				Invite
+			</button>
+		</div>
+	</div>
+
+	<div class="tab mt-4">
+		<button class="tablinks" (click)="openTab('top')" [ngClass]="{'tablink-active': active == 'top'}">
+			Top
+		</button>
+		<button class="tablinks" disabled (click)="openTab('near-you')" [ngClass]="{'tablink-active': active == 'near-you'}">
+			Near You
+		</button>
+		<button class="tablinks" disabled (click)="openTab('new')" [ngClass]="{'tablink-active': active == 'new'}">
+			Newest
+		</button>
+		<button class="tablinks" disabled (click)="openTab('hosts')" [ngClass]="{'tablink-active': active == 'hosts'}">
+			Hosts
+		</button>
+		<button class="tablinks" disabled (click)="openTab('online')" [ngClass]="{'tablink-active': active == 'online'}">
+			Online Now
+		</button>
+	</div>
+
+	<hr class="e2e my-0">
+
+	<div id="top" class="tabcontent" *ngIf="active == 'top'">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+	<div id="near-you" class="tabcontent" *ngIf="active == 'near-you'">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+	<div id="new" class="tabcontent" *ngIf="active == 'new'">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+	<div id="hosts" class="tabcontent" *ngIf="active == 'hosts'">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+	<div id="online" class="tabcontent" *ngIf="active == 'online'">
+		<ng-container *ngTemplateOutlet="recordTemplate"></ng-container>
+	</div>
+</div>
+
+<ng-template #recordTemplate>
+	<ng-container *ngIf="memberList.length && !isLoading">
+		<div class="row mt-3">
+			<div class="col-lg-6 col-p-half" *ngFor="let item of memberList">
+				<div class="card mb-3">
+					<div class="row py-3 g-0">
+						<div class="col-lg-3 p-0">
+							<div class="card-avatar">
+								<img *ngIf="item?.profile_pic" [src]="item?.profile_pic" class="img-fluid round" alt="profile pic">
+								<img *ngIf="!item?.profile_pic" src="assets/img/avatar-placeholder.png" class="img-fluid round" alt="profile pic">
+							</div>
+						</div>
+						<div class="col-lg-7 p-0">
+							<div class="card-body p-0">
+								<h5 class="card-title mb-0 text-capitalize">{{ item?.full_name }}</h5>
+								<p class="card-text mb-0">
+									<small class="text-muted">
+										<span class="light-green">{{ item.role_name == 'Admin' ? 'Host' : item.role_name }}</span> 
+										- Last active 3d ago
+									</small>
+								</p>
+								<div class="d-flex gap-2">
+									<p class="card-text mb-0"><small class="text-muted">{{ item?.mini_bio }}</small></p>
+									<!-- <p class="card-text mb-0"><small class="text-muted">210 Posts</small></p>
+									<p class="card-text mb-0"><small class="text-muted">6 Followers</small></p>
+									<p class="card-text mb-0"><small class="text-muted">0 Following</small></p> -->
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 p-0">
+							<div class="card-actions">
+								<span class="light-green pointer">Follow</span>
+								<span ngbDropdown placement="bottom-end" display="dynamic" class="action-items">
+									<a href="javascript:;" class="context-menu" ngbDropdownToggle id="more-dd">
+										<img src="assets/img/dots.png" class="dots" alt="more" width="12" height="3">
+									</a>
+									<ul ngbDropdownMenu aria-labelledby="more-dd" class="custom-dd-menu small">
+										<li ngbDropdownItem class="pointer p-0">
+											<a class="d-block" [routerLink]="['/' + routes.members, item.id]">View Profile</a>
+										</li>
+										<li ngbDropdownItem class="pointer p-0">
+											<a class="d-block" href="javascript:;">Chat</a>
+										</li>
+									</ul>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ngb-pagination [collectionSize]="collectionSize" [(page)]="payload.page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+			[boundaryLinks]="true" size="sm" class="d-flex justify-content-end" (pageChange)="pageChange($event)">
+		</ngb-pagination>
+	</ng-container>
+	<div class="text-muted loading-container" *ngIf="!memberList.length && isLoading">Loading...</div>
+	<div class="text-muted loading-container" *ngIf="!memberList.length && !isLoading">No Data Found!</div>
+</ng-template>
